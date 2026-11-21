@@ -78,7 +78,7 @@ export default function Home() {
 
   return (
     <main>
-      {/* Cinematic Hero */}
+      {/* Camera Viewfinder REC Frame Hero */}
       <Hero />
 
       {/* Selected Work */}
@@ -141,7 +141,7 @@ export default function Home() {
       <section>
         <h2>Contact</h2>
         <p className="contact-heading">
-          <a href="mailto:kpashwin045@gmail.com">kpashwin045@gmail.com</a>
+          <a href="mailto:hello.ashwinkp@gmail.com">hello.ashwinkp@gmail.com</a>
         </p>
         <p>
           <a

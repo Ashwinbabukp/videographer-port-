@@ -44,14 +44,16 @@ export default function RootLayout({ children }) {
         <div className="wrap">
           <header>
             <span className="brand-name">Ashwin K P</span>
-            <a
-              className="cn"
-              href="https://wa.me/917034333646"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Connect
-            </a>
+            <div className="r">
+              <a
+                className="cn"
+                href="https://wa.me/917034333646"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Connect
+              </a>
+            </div>
           </header>
           {children}
         </div>
