@@ -14,34 +14,24 @@ const MAX_ITEMS = 6;
 
 const DEFAULT_ITEMS_DATA = [
   {
-    text: "STOP THE SCROLL",
-    src: "https://images.unsplash.com/photo-1536240478700-b869070f9279?auto=format&fit=crop&w=1200&q=80",
+    text: "PLAN",
+    src: "/assets/IMG_1899.jpg",
     link: "#work",
   },
   {
-    text: "APPLY EUROPA",
-    src: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=1200&q=80",
-    link: "https://youtu.be/oHK9C0FpCyA",
+    text: "EXECUTE",
+    src: "/assets/IMG_1900.jpg",
+    link: "#work",
   },
   {
-    text: "APPLEMAX REELS",
-    src: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=1200&q=80",
-    link: "https://www.instagram.com/applemax_vengara/",
-  },
-  {
-    text: "PEXELS GLOBAL",
-    src: "https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=1200&q=80",
-    link: "https://www.pexels.com/@ashwin/",
-  },
-  {
-    text: "DIRECT & EDIT",
-    src: "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=1200&q=80",
-    link: "https://wa.me/917034333646",
+    text: "RESULT",
+    src: "/assets/IMG_2171.jpg",
+    link: "#work",
   },
 ];
 
 const DEFAULT_ITEMS = {
-  itemCount: 5,
+  itemCount: 3,
   item1: {
     text: DEFAULT_ITEMS_DATA[0].text,
     image: { src: DEFAULT_ITEMS_DATA[0].src },
@@ -57,23 +47,13 @@ const DEFAULT_ITEMS = {
     image: { src: DEFAULT_ITEMS_DATA[2].src },
     link: DEFAULT_ITEMS_DATA[2].link,
   },
-  item4: {
-    text: DEFAULT_ITEMS_DATA[3].text,
-    image: { src: DEFAULT_ITEMS_DATA[3].src },
-    link: DEFAULT_ITEMS_DATA[3].link,
-  },
-  item5: {
-    text: DEFAULT_ITEMS_DATA[4].text,
-    image: { src: DEFAULT_ITEMS_DATA[4].src },
-    link: DEFAULT_ITEMS_DATA[4].link,
-  },
 };
 
 const DEFAULT_FONT = {
   fontFamily: 'var(--display, "Bricolage Grotesque", sans-serif)',
   fontWeight: 800,
-  fontSize: "clamp(38px, 6.2vw, 68px)",
-  lineHeight: "0.95em",
+  fontSize: "clamp(52px, 8.5vw, 102px)",
+  lineHeight: "0.92em",
   letterSpacing: "-0.04em",
   textAlign: "center",
   textTransform: "uppercase",
@@ -102,13 +82,13 @@ export function BaseHoverImageReveal({
   items = DEFAULT_ITEMS,
   font = DEFAULT_FONT,
   textColor = "#F2F0EA",
-  dimColor = "#3A3D45",
+  dimColor = "#36383E",
   align = "center",
-  rowGap = 20,
-  imageWidth = 280,
-  imageHeight = 370,
-  rounded = 18,
-  offsetX = 160,
+  rowGap = 26,
+  imageWidth = 300,
+  imageHeight = 440,
+  rounded = 20,
+  offsetX = 180,
   offsetY = 0,
   followStrength = 1.2,
   transition = DEFAULT_TRANSITION,
@@ -128,7 +108,7 @@ export function BaseHoverImageReveal({
   const data = items || DEFAULT_ITEMS;
   const count = Math.max(
     1,
-    Math.min(MAX_ITEMS, data.itemCount || 5)
+    Math.min(MAX_ITEMS, data.itemCount || 3)
   );
 
   const list = [];
@@ -158,7 +138,7 @@ export function BaseHoverImageReveal({
       style={{
         position: "relative",
         width: "100%",
-        minHeight: "560px",
+        minHeight: "440px",
         overflow: "hidden",
         backgroundColor,
         display: "flex",
@@ -166,7 +146,7 @@ export function BaseHoverImageReveal({
         justifyContent: "center",
         alignItems: alignToFlex[align] || "center",
         gap: `${rowGap}px`,
-        padding: "60px 16px",
+        padding: "48px 16px",
         boxSizing: "border-box",
         cursor: "default",
         ...font,
@@ -189,7 +169,8 @@ export function BaseHoverImageReveal({
           overflow: "hidden",
           pointerEvents: "none",
           zIndex: 10,
-          boxShadow: "0 25px 60px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.15)",
+          boxShadow: "0 28px 70px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.18)",
+          backgroundColor: "#111",
         }}
         animate={{ opacity: anyActive ? 1 : 0, scale: anyActive ? 1 : 0.92 }}
         transition={transition}
@@ -216,7 +197,7 @@ export function BaseHoverImageReveal({
                 width: "100%",
                 height: "100%",
                 overflow: "hidden",
-                background: "#111",
+                background: "#0E0E10",
               }}
             >
               {src ? (
@@ -227,6 +208,7 @@ export function BaseHoverImageReveal({
                     width: "100%",
                     height: "100%",
                     objectFit: "cover",
+                    objectPosition: "top center",
                     display: "block",
                   }}
                 />
