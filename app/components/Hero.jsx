@@ -1,6 +1,7 @@
 'use client';
 
 import HoverImageReveal from './HoverImageReveal';
+import CursorRingField from './CursorRingField';
 
 export default function Hero() {
   const heroItems = {
@@ -33,6 +34,19 @@ export default function Hero() {
 
   return (
     <div className="reveal-hero-section">
+      {/* Background Interactive Cursor Ring Field */}
+      <div className="hero-cursor-field-wrap" aria-hidden="true">
+        <CursorRingField
+          background="transparent"
+          colors={["#7189ff", "#3074f9", "#0b0b18"]}
+          density={260}
+          dotSize={90}
+          speed={6}
+          ring={{ push: 25, width: 5, radius: 7, turbulence: 25 }}
+          style={{ width: "100%", height: "100%" }}
+        />
+      </div>
+
       {/* Top Eyebrow Badge */}
       <div className="hero-eyebrow-wrap">
         <div className="hero-status-pill">
