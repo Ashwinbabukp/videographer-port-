@@ -1,4 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url('https://api.fontshare.com/v2/css?f[]=clash-display@600,700&f[]=cabinet-grotesk@800,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,800;0,900;1,800;1,900&family=Epilogue:wght@800;900&family=Syne:wght@700;800;900&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+@tailwind components;
+@tailwind utilities;
 
 :root {
   --bg: #0A0A0B;
@@ -10,7 +14,7 @@
   --card-bg: rgba(255, 255, 255, 0.02);
   --rec: #D93A2B;
   --accent: #E0E2EC;
-  --display: "Bricolage Grotesque", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --display: "Clash Display", "Cabinet Grotesk", "Montserrat", "Epilogue", "Syne", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --body: "Hanken Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --mono: "JetBrains Mono", SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   color-scheme: dark;
@@ -21,6 +25,19 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+button {
+  border: none;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 html {
@@ -97,18 +114,117 @@ header {
 }
 
 /* =========================================================
-   Hero Section (Kept intact)
+   Hero Section - Exact Match to Design
    ========================================================= */
 .reveal-hero-section {
   position: relative;
-  width: 100%;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
   min-height: 100vh;
   min-height: 100dvh;
-  padding: 48px 0 60px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  background-color: #070709;
+  background-image: 
+    radial-gradient(rgba(255, 255, 255, 0.12) 1.2px, transparent 1.2px);
+  background-size: 24px 24px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* Top Navbar */
+.hero-navbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: clamp(20px, 3.2vh, 36px) clamp(24px, 4vw, 56px);
+  z-index: 50;
+  box-sizing: border-box;
+  pointer-events: auto;
+}
+
+.nav-local {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 0.09em;
+  color: rgba(255, 255, 255, 0.72);
+  text-transform: uppercase;
+}
+
+.nav-center-cross {
+  font-size: 14px;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.45);
+  user-select: none;
+}
+
+.nav-download-cv-btn {
+  font-family: var(--display), sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #FFFFFF;
+  text-decoration: none;
+  padding: 8px 22px;
+  border: 1.5px solid rgba(255, 255, 255, 0.45);
+  border-radius: 9999px;
+  background: transparent;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-download-cv-btn:hover {
+  background: #FFFFFF;
+  color: #0A0A0B;
+  border-color: #FFFFFF;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.35);
+  transform: translateY(-1px);
+}
+
+/* Center Content & Floating Dot */
+.hero-center-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 16px;
+  box-sizing: border-box;
+}
+
+.hero-floating-dot {
+  width: 9px;
+  height: 9px;
+  background: #FFFFFF;
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.9), 0 0 22px rgba(255, 255, 255, 0.45);
+  margin-bottom: 28px;
+  margin-left: 110px; /* offset slightly to the right matching reference image */
+  pointer-events: none;
+  animation: floatDot 3s ease-in-out infinite;
+}
+
+@keyframes floatDot {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-7px);
+  }
 }
 
 .hero-cursor-field-wrap {

@@ -113,9 +113,8 @@ export default function ProfessionalJourney() {
                 delay: 0.1,
                 ease: [0.16, 1, 0.3, 1],
               }}
-              className={`ug-journey-big-quote ${
-                isLeft ? "ug-quote-left" : "ug-quote-right"
-              }`}
+              className={`ug-journey-big-quote ${isLeft ? "ug-quote-left" : "ug-quote-right"
+                }`}
             >
               {highlightKeywords(stage.quote)}
             </motion.blockquote>
@@ -130,9 +129,8 @@ export default function ProfessionalJourney() {
                 delay: 0.22,
                 ease: [0.16, 1, 0.3, 1],
               }}
-              className={`ug-journey-bottom-meta ${
-                isLeft ? "ug-meta-right" : "ug-meta-left"
-              }`}
+              className={`ug-journey-bottom-meta ${isLeft ? "ug-meta-right" : "ug-meta-left"
+                }`}
             >
               <div className="ug-journey-company-heading">
                 {stage.company} • {stage.period}
@@ -141,9 +139,8 @@ export default function ProfessionalJourney() {
                 {highlightKeywords(stage.narrative)}
               </p>
               <div
-                className={`ug-journey-stack-row ${
-                  isLeft ? "justify-end" : "justify-start"
-                }`}
+                className={`ug-journey-stack-row ${isLeft ? "justify-end" : "justify-start"
+                  }`}
               >
                 {stage.stack.map((t, idx) => {
                   const isHigh = /(React|Next|Figma)/i.test(t);
@@ -158,9 +155,8 @@ export default function ProfessionalJourney() {
                         delay: 0.3 + idx * 0.04,
                         ease: [0.16, 1, 0.3, 1],
                       }}
-                      className={`ug-journey-stack-chip ${
-                        isHigh ? "is-highlighted" : ""
-                      }`}
+                      className={`ug-journey-stack-chip ${isHigh ? "is-highlighted" : ""
+                        }`}
                     >
                       {t}
                     </motion.span>

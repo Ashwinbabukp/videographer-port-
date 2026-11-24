@@ -50,9 +50,9 @@ const DEFAULT_ITEMS = {
 };
 
 const DEFAULT_FONT = {
-  fontFamily: 'var(--display, "Bricolage Grotesque", sans-serif)',
-  fontWeight: 800,
-  fontSize: "clamp(52px, 8.5vw, 102px)",
+  fontFamily: 'var(--display, "Clash Display", "Montserrat", sans-serif)',
+  fontWeight: 900,
+  fontSize: "clamp(38px, 6.4vw, 86px)",
   lineHeight: "0.92em",
   letterSpacing: "-0.04em",
   textAlign: "center",
@@ -119,6 +119,7 @@ export function BaseHoverImageReveal({
       text: it?.text ?? fallback?.text ?? `Item ${i}`,
       image: it?.image ?? (fallback ? { src: fallback.src } : undefined),
       link: it?.link ?? fallback?.link,
+      color: it?.color,
     });
   }
   const anyActive = hovered != null;
@@ -239,7 +240,8 @@ export function BaseHoverImageReveal({
       >
         {list.map((item, i) => {
           const isHovered = hovered === i;
-          const color = anyActive ? (isHovered ? textColor : dimColor) : textColor;
+          const defaultColor = item.color || textColor;
+          const color = anyActive ? (isHovered ? textColor : dimColor) : defaultColor;
           const copyStyle = {
             display: "block",
             color,

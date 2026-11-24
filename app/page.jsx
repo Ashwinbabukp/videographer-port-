@@ -1,4 +1,5 @@
 import Hero from './components/Hero';
+import AISearchSection from './components/AISearchSection';
 import CorollaGleam from './components/CorollaGleam';
 import PixelTrail from './components/PixelTrail';
 import ProfessionalJourney from './components/ProfessionalJourney';
@@ -141,8 +142,11 @@ export default function Home() {
 
   return (
     <main>
-      {/* Hero Section (Untouched) */}
+      {/* Hero Section */}
       <Hero />
+
+      {/* AI Portfolio Search Section */}
+      <AISearchSection />
 
       {/* [ 01 / FEATURED PROJECTS ] */}
       <section id="work" className="ug-section">

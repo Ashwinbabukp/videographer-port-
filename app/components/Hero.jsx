@@ -1,103 +1,89 @@
 'use client';
 
 import HoverImageReveal from './HoverImageReveal';
-import CursorRingField from './CursorRingField';
 
 export default function Hero() {
   const heroItems = {
-    itemCount: 3,
+    itemCount: 4,
     item1: {
-      text: "PLAN",
+      text: "PRODUCT DESIGN",
+      color: "#7E828C",
       image: {
         src: "/assets/IMG_1899.jpg",
-        alt: "Plan - Content strategy, audience analytics and scripting"
+        alt: "Product Design",
       },
       link: "#work",
     },
     item2: {
-      text: "EXECUTE",
+      text: "GRAPHICS",
       image: {
         src: "/assets/IMG_1900.jpg",
-        alt: "Execute - Multi-camera shoot, lighting, framing, speed ramps & kinetic edits"
+        alt: "Graphics",
       },
-      link: "#work",
+      link: "#skills",
     },
     item3: {
-      text: "RESULT",
+      text: "PHOTOGRAPHY",
       image: {
         src: "/assets/IMG_2171.jpg",
-        alt: "Result - 10M+ views, viral engagement and national publication features"
+        alt: "Photography",
       },
-      link: "#work",
+      link: "#experience",
+    },
+    item4: {
+      text: "CONTACT",
+      image: {
+        src: "/assets/IMG_8947.jpg",
+        alt: "Contact",
+      },
+      link: "#contact",
     },
   };
 
   return (
-    <div className="reveal-hero-section">
-      {/* Background Interactive Cursor Ring Field */}
-      <div className="hero-cursor-field-wrap" aria-hidden="true">
-        <CursorRingField
-          background="transparent"
-          colors={["#7189ff", "#3074f9", "#0b0b18"]}
-          density={260}
-          dotSize={90}
-          speed={6}
-          ring={{ push: 25, width: 5, radius: 7, turbulence: 25 }}
-          style={{ width: "100%", height: "100%" }}
+    <section className="reveal-hero-section" id="hero">
+      {/* Top Navbar */}
+      <nav className="hero-navbar">
+        <div className="nav-local">LOCAL/ 46° 28&apos; 58.6272&quot; N</div>
+        <div className="nav-center-cross" aria-hidden="true">✕</div>
+        <a
+          href="/ashwin-resume.pdf"
+          download="Ashwin_KP_CV.pdf"
+          className="nav-download-cv-btn"
+        >
+          DOWNLOAD CV
+        </a>
+      </nav>
+
+      {/* Center Hero Content Matching Reference */}
+      <div className="hero-center-content">
+        {/* Floating White Dot above Typography */}
+        <div className="hero-floating-dot" aria-hidden="true" />
+
+        {/* 4 Stacked Interactive Typography Items */}
+        <HoverImageReveal
+          items={heroItems}
+          align="center"
+          rowGap={10}
+          textColor="#FFFFFF"
+          dimColor="#555861"
+          font={{
+            fontFamily: 'var(--display, "Clash Display", "Cabinet Grotesk", "Montserrat", sans-serif)',
+            fontWeight: 900,
+            fontSize: "clamp(38px, 6.6vw, 92px)",
+            lineHeight: "0.90em",
+            letterSpacing: "-0.04em",
+            textAlign: "center",
+            textTransform: "uppercase",
+          }}
+          imageWidth={300}
+          imageHeight={420}
+          rounded={18}
+          offsetX={180}
+          offsetY={0}
+          followStrength={1.2}
         />
       </div>
-
-      {/* Top Eyebrow Badge */}
-      <div className="hero-eyebrow-wrap">
-        <div className="hero-status-pill">
-          <span className="dot" aria-hidden="true" />
-          <span>Available now in Bangalore • 2026</span>
-        </div>
-      </div>
-
-      {/* 3 Interactive Stages: PLAN • EXECUTE • RESULT with Hover Reveal */}
-      <HoverImageReveal
-        items={heroItems}
-        align="center"
-        rowGap={28}
-        imageWidth={310}
-        imageHeight={460}
-        rounded={22}
-        offsetX={180}
-        offsetY={0}
-        followStrength={1.2}
-      />
-
-      {/* Hero Footnote & Quick Actions */}
-      <div className="hero-footer-wrap">
-        <p className="hero-subline">
-          From concept and strategy to high-impact production and viral results. 423+ Reels, 10M+ views, ready to start immediately.
-        </p>
-
-        <div className="hero-action-row">
-          <div className="hero-cta-btns">
-            <a href="#work" className="btn-primary">
-              See Selected Work ↓
-            </a>
-            <a
-              href="https://wa.me/917034333646"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-secondary"
-            >
-              Get in Touch
-            </a>
-          </div>
-
-          <div className="hero-metric-pills">
-            <span><b>10.2M+</b> Total Views</span>
-            <span className="sep">•</span>
-            <span><b>423+</b> Reels Produced</span>
-            <span className="sep">•</span>
-            <span><b>5+</b> Yrs Experience</span>
-          </div>
-        </div>
-      </div>
-    </div>
+    </section>
   );
 }
