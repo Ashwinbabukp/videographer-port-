@@ -73,7 +73,7 @@ export default function AcademicsSection() {
             transition={{ duration: 0.8, delay: 0.36, ease: [0.16, 1, 0.3, 1] }}
             className="ug-academics-para"
           >
-            Graduated with First Class distinction and an academic merit of <span className="ug-academics-lime">7.8 CGPA</span>. Engineered foundational client-server web apps, relational database models (SQL/RDBMS), and data structure algorithms that directly established the rigor for high-performance frontend and full-stack web engineering.
+            Graduated with First Class distinction and an academic merit of <span className="ug-highlighter">7.8 CGPA</span>. Engineered foundational client-server web apps, relational database models (SQL/RDBMS), and data structure algorithms that directly established the rigor for high-performance frontend and full-stack web engineering.
           </motion.p>
         </motion.div>
       </div>

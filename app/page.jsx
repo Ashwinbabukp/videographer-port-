@@ -4,6 +4,22 @@ import PixelTrail from './components/PixelTrail';
 import ProfessionalJourney from './components/ProfessionalJourney';
 import AcademicsSection from './components/AcademicsSection';
 
+// Helper to highlight key technologies with the clean normal highlighter
+function highlightKeywords(text) {
+  if (!text) return text;
+  const parts = text.split(/(Figma|Next\.js(?: \d+)?|React(?:\.js|\s*\d+)?)/g);
+  return parts.map((part, i) => {
+    if (/^(Figma|Next\.js(?: \d+)?|React(?:\.js|\s*\d+)?)$/i.test(part)) {
+      return (
+        <span key={i} className="ug-highlighter">
+          {part}
+        </span>
+      );
+    }
+    return part;
+  });
+}
+
 export default function Home() {
   const projects = [
     {
@@ -134,7 +150,7 @@ export default function Home() {
           <span className="ug-index">[ 01 / FEATURED PROJECTS ]</span>
           <h2 className="ug-title">Production Web Applications</h2>
           <p className="ug-subtitle">
-            Commercial products, social platforms, and full-stack web applications built with React, Next.js, and TypeScript.
+            Commercial products, social platforms, and full-stack web applications built with <span className="ug-highlighter">React</span>, <span className="ug-highlighter">Next.js</span>, and TypeScript.
           </p>
         </div>
 
@@ -148,20 +164,23 @@ export default function Home() {
 
               <div className="ug-card-body">
                 <h3 className="ug-project-title">{proj.title}</h3>
-                <p className="ug-project-desc">{proj.subtitle}</p>
+                <p className="ug-project-desc">{highlightKeywords(proj.subtitle)}</p>
 
                 <ul className="ug-bullet-list">
                   {proj.highlights.map((h, i) => (
-                    <li key={i}>{h}</li>
+                    <li key={i}>{highlightKeywords(h)}</li>
                   ))}
                 </ul>
 
                 <div className="ug-tags-wrap">
-                  {proj.tags.map((t) => (
-                    <span key={t} className="ug-tag">
-                      {t}
-                    </span>
-                  ))}
+                  {proj.tags.map((t) => {
+                    const isHigh = /(React|Next|Figma)/i.test(t);
+                    return (
+                      <span key={t} className={`ug-tag ${isHigh ? 'is-highlighted' : ''}`}>
+                        {t}
+                      </span>
+                    );
+                  })}
                 </div>
               </div>
 
@@ -210,12 +229,15 @@ export default function Home() {
                 <h3 className="ug-skill-cat">{cluster.category}</h3>
               </div>
               <div className="ug-skill-pills">
-                {cluster.skills.map((skill) => (
-                  <span key={skill} className="ug-skill-chip">
-                    <span className="chip-dot" />
-                    {skill}
-                  </span>
-                ))}
+                {cluster.skills.map((skill) => {
+                  const isHigh = /(React|Next|Figma)/i.test(skill);
+                  return (
+                    <span key={skill} className={`ug-skill-chip ${isHigh ? 'is-highlighted' : ''}`}>
+                      <span className="chip-dot" />
+                      {skill}
+                    </span>
+                  );
+                })}
               </div>
             </div>
           ))}
@@ -296,52 +318,54 @@ export default function Home() {
             </div>
           </div>
         </div>
-
-        {/* Taskit Corolla Gleam Positioned Directly Under the Contact Card */}
-        <div className="taskit-corolla-container">
-          <div className="taskit-corolla-scaler">
-            <CorollaGleam
-              background="transparent"
-              scale={330}
-              speed={45}
-              spin={4}
-              breathe={50}
-              placement={{ y: 76 }}
-              style={{ width: "100%", height: "100%" }}
-            />
-          </div>
-          {/* Top fade gradient overlay only */}
-          <div className="taskit-corolla-top-fade" aria-hidden="true" />
-        </div>
       </section>
 
-      {/* Footer Section */}
+      {/* Footer Section - Aligned Left & Right across Full Screen */}
       <footer className="footer-section">
         <div className="footer-links-row">
-          <a
-            href="https://www.linkedin.com/in/ashwin-kp-parakkadavu"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            LinkedIn
-          </a>
-          <a
-            href="https://github.com/Ashwinbabukp"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            GitHub
-          </a>
-          <a
-            href="https://taskit01.vercel.app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Live Portfolio
-          </a>
+          <div className="footer-links-left">
+            <a
+              href="https://www.linkedin.com/in/ashwin-kp-parakkadavu"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              LinkedIn
+            </a>
+            <a
+              href="https://github.com/Ashwinbabukp"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              GitHub
+            </a>
+            <a
+              href="https://taskit01.vercel.app"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Live Portfolio
+            </a>
+          </div>
           <span className="copyright">© 2026 Ashwin K P</span>
         </div>
       </footer>
+
+      {/* Taskit Corolla Gleam Positioned as the Last Element of the Page */}
+      <div className="taskit-corolla-container">
+        <div className="taskit-corolla-scaler">
+          <CorollaGleam
+            background="transparent"
+            scale={330}
+            speed={45}
+            spin={4}
+            breathe={50}
+            placement={{ y: 76 }}
+            style={{ width: "100%", height: "100%" }}
+          />
+        </div>
+        {/* Top fade gradient overlay only */}
+        <div className="taskit-corolla-top-fade" aria-hidden="true" />
+      </div>
     </main>
   );
 }

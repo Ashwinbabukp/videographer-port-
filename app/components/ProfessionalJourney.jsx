@@ -4,6 +4,22 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 
+// Helper to highlight key technologies with the clean normal highlighter
+function highlightKeywords(text) {
+  if (!text) return text;
+  const parts = text.split(/(Figma|Next\.js|React(?:\.js)?)/g);
+  return parts.map((part, i) => {
+    if (/^(Figma|Next\.js|React(?:\.js)?)$/.test(part)) {
+      return (
+        <span key={i} className="ug-highlighter">
+          {part}
+        </span>
+      );
+    }
+    return part;
+  });
+}
+
 export default function ProfessionalJourney() {
   const containerRef = useRef(null);
 
@@ -29,6 +45,7 @@ export default function ProfessionalJourney() {
       stack: [
         "React.js",
         "Next.js",
+        "Figma",
         "TypeScript",
         "Tailwind CSS",
         "GSAP",
@@ -100,7 +117,7 @@ export default function ProfessionalJourney() {
                 isLeft ? "ug-quote-left" : "ug-quote-right"
               }`}
             >
-              {stage.quote}
+              {highlightKeywords(stage.quote)}
             </motion.blockquote>
 
             {/* Bottom Monospace Narrative & Tech Stack */}
@@ -120,28 +137,35 @@ export default function ProfessionalJourney() {
               <div className="ug-journey-company-heading">
                 {stage.company} • {stage.period}
               </div>
-              <p className="ug-journey-narrative">{stage.narrative}</p>
+              <p className="ug-journey-narrative">
+                {highlightKeywords(stage.narrative)}
+              </p>
               <div
                 className={`ug-journey-stack-row ${
                   isLeft ? "justify-end" : "justify-start"
                 }`}
               >
-                {stage.stack.map((t, idx) => (
-                  <motion.span
-                    key={t}
-                    initial={{ opacity: 0, scale: 0.88 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: false, amount: 0.2 }}
-                    transition={{
-                      duration: 0.4,
-                      delay: 0.3 + idx * 0.04,
-                      ease: [0.16, 1, 0.3, 1],
-                    }}
-                    className="ug-journey-stack-chip"
-                  >
-                    {t}
-                  </motion.span>
-                ))}
+                {stage.stack.map((t, idx) => {
+                  const isHigh = /(React|Next|Figma)/i.test(t);
+                  return (
+                    <motion.span
+                      key={t}
+                      initial={{ opacity: 0, scale: 0.88 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      viewport={{ once: false, amount: 0.2 }}
+                      transition={{
+                        duration: 0.4,
+                        delay: 0.3 + idx * 0.04,
+                        ease: [0.16, 1, 0.3, 1],
+                      }}
+                      className={`ug-journey-stack-chip ${
+                        isHigh ? "is-highlighted" : ""
+                      }`}
+                    >
+                      {t}
+                    </motion.span>
+                  );
+                })}
               </div>
             </motion.div>
           </section>
