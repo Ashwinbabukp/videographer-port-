@@ -1746,7 +1746,8 @@ header {
 }
 
 .skills-deck-card-wrap:hover,
-.skills-deck-card-wrap:focus-within {
+.skills-deck-card-wrap:focus-within,
+.skills-deck-card-wrap.is-flipped {
   transform: translateY(-8px) rotate(0deg) scale(1.02);
   z-index: 10;
 }
@@ -1756,11 +1757,13 @@ header {
   width: 100%;
   height: 100%;
   transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
   transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .skills-deck-card-wrap:hover .skills-deck-flipper,
-.skills-deck-card-wrap:focus-within .skills-deck-flipper {
+.skills-deck-card-wrap:focus-within .skills-deck-flipper,
+.skills-deck-card-wrap.is-flipped .skills-deck-flipper {
   transform: rotateY(180deg);
 }
 
@@ -1780,10 +1783,17 @@ header {
   transition: border-color 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
 }
 
+.skills-deck-front {
+  transform: rotateY(0deg);
+}
+
 .skills-deck-back,
 .skills-deck-card-wrap:hover .skills-deck-back.is-black,
 .skills-deck-card-wrap:hover .skills-deck-back.is-transparent,
-.skills-deck-card-wrap:hover .skills-deck-back.is-green {
+.skills-deck-card-wrap:hover .skills-deck-back.is-green,
+.skills-deck-card-wrap.is-flipped .skills-deck-back.is-black,
+.skills-deck-card-wrap.is-flipped .skills-deck-back.is-transparent,
+.skills-deck-card-wrap.is-flipped .skills-deck-back.is-green {
   transform: rotateY(180deg);
   justify-content: flex-start;
   gap: 18px;
@@ -1806,16 +1816,13 @@ header {
 }
 
 .skills-deck-face.is-transparent {
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  background: rgba(255, 255, 255, 0.04);
   color: #F2F0EA;
-  border: 1px solid rgba(180, 244, 53, 0.2);
+  border: 1px solid rgba(180, 244, 53, 0.22);
   box-shadow: 0 18px 44px rgba(0, 0, 0, 0.4);
 }
 
 .skills-deck-card-wrap:hover .skills-deck-face.is-transparent {
-  background: rgba(16, 16, 20, 0.92);
   border-color: rgba(180, 244, 53, 0.6);
 }
 

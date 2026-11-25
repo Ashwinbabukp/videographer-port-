@@ -1,6 +1,8 @@
 /* eslint-disable */
 "use client";
 
+import { useState } from "react";
+
 function StackLogo({ type, isGreenCard }) {
   const strokeColor = isGreenCard
     ? "rgba(10, 10, 11, 0.38)"
@@ -300,6 +302,12 @@ const DECK_CARDS = [
 ];
 
 export default function SkillsDeck() {
+  const [flipped, setFlipped] = useState({});
+
+  const toggleCard = (category) => {
+    setFlipped((prev) => ({ ...prev, [category]: !prev[category] }));
+  };
+
   return (
     <section id="skills" className="skills-deck-section">
       <div className="skills-deck-inner">
@@ -315,10 +323,12 @@ export default function SkillsDeck() {
         <div className="skills-deck-grid">
           {DECK_CARDS.map((card) => {
             const isGreen = card.variant === "green";
+            const isFlipped = !!flipped[card.category];
             return (
               <div
                 key={card.category}
-                className="skills-deck-card-wrap"
+                className={`skills-deck-card-wrap ${isFlipped ? "is-flipped" : ""}`}
+                onClick={() => toggleCard(card.category)}
                 tabIndex={0}
                 style={{
                   "--card-tilt": card.tilt,
