@@ -10,23 +10,24 @@ export default function Hero() {
       text: "PRODUCT DESIGN",
       color: "#7E828C",
       image: {
-        src: "/assets/IMG_1899.jpg",
-        alt: "Product Design",
+        src: "/assets/product-design-screenshot.png",
+        alt: "Figma Product Design",
       },
       link: "#work",
     },
     item2: {
       text: "GRAPHICS",
+      previewUrl: "https://taskit01.vercel.app/",
       image: {
         src: "/assets/IMG_1900.jpg",
-        alt: "Graphics",
+        alt: "Taskit Live Preview",
       },
-      link: "#skills",
+      link: "https://taskit01.vercel.app/",
     },
     item3: {
       text: "PHOTOGRAPHY",
       image: {
-        src: "/assets/IMG_2171.jpg",
+        src: "/assets/photo.png",
         alt: "Photography",
       },
       link: "#experience",
@@ -34,8 +35,8 @@ export default function Hero() {
     item4: {
       text: "PEXELS",
       image: {
-        src: "/assets/IMG_8947.jpg",
-        alt: "Pexels",
+        src: "/assets/pexel.png",
+        alt: "Pexels Photographer — Ashwin K P",
       },
       link: "https://www.pexels.com/@ashwin/",
     },
@@ -45,7 +46,7 @@ export default function Hero() {
     <section className="reveal-hero-section" id="hero">
       {/* Top Navbar */}
       <nav className="hero-navbar">
-        <div className="nav-local">LOCAL/ 46° 28&apos; 58.6272&quot; N</div>
+        <div className="nav-local">LOCAL/ BANGALORE · 12° 58&apos; 18&quot; N</div>
         <div className="nav-center-cross" aria-hidden="true">✕</div>
         <MovingGradientButton
           label="DOWNLOAD CV"
@@ -108,10 +109,10 @@ export default function Hero() {
             textAlign: "center",
             textTransform: "uppercase",
           }}
-          imageWidth={400}
-          imageHeight={520}
-          rounded={20}
-          offsetX={230}
+          imageWidth={560}
+          imageHeight={315}
+          rounded={16}
+          offsetX={260}
           offsetY={0}
           followStrength={1.2}
         />

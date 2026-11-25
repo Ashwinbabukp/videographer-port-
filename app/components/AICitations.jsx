@@ -62,7 +62,7 @@ function renderTextWithLinks(text) {
             href={cleanUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-0.5 font-medium text-[#B4F435] underline decoration-[#B4F435]/50 underline-offset-2 hover:text-[#c7ff54]"
+            className="inline-flex items-center gap-0.5 font-bold text-[#0A0A0B] underline decoration-[#0A0A0B]/50 underline-offset-2 hover:decoration-[#0A0A0B]"
           >
             <span>{cleanUrl}</span>
             <ArrowUpRight className="size-3 shrink-0" />
@@ -150,16 +150,16 @@ export default function AICitations({
 
   return (
     <MotionConfig reducedMotion="user">
-      <div className={`relative w-full max-w-lg mx-auto py-2 text-left ${className}`} ref={rootRef}>
-        <div className="rounded-2xl bg-zinc-900/90 border border-white/10 p-5 shadow-2xl backdrop-blur-md">
+      <div className={`relative w-full mx-auto text-left ${className}`} ref={rootRef}>
+        <div className="bg-transparent">
           {/* Answer Text with Streaming Reveal & Inline Citations */}
-          <p className="text-[15px] leading-relaxed text-zinc-200">
+          <p className="text-[15px] leading-relaxed text-[#0A0A0B] font-medium">
             {isStreaming ? (
               <>
                 <span>{words.slice(0, visibleCount).join("")}</span>
                 <span
                   aria-hidden="true"
-                  className="inline-block w-1.5 h-4 ml-0.5 align-middle bg-[#B4F435] rounded-[1px] animate-pulse"
+                  className="inline-block w-1.5 h-4 ml-0.5 align-middle bg-[#0A0A0B] rounded-[1px] animate-pulse"
                 />
               </>
             ) : (
@@ -176,7 +176,7 @@ export default function AICitations({
                         href={part.link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-0.5 font-medium text-[#B4F435] underline decoration-[#B4F435]/50 underline-offset-2 hover:text-[#c7ff54]"
+                        className="inline-flex items-center gap-0.5 font-bold text-[#0A0A0B] underline decoration-[#0A0A0B]/50 underline-offset-2 hover:decoration-[#0A0A0B]"
                       >
                         <span>{part.text}</span>
                         <ArrowUpRight className="size-3 shrink-0" />
@@ -195,7 +195,7 @@ export default function AICitations({
                 <span key={index}>
                   <span
                     className={`rounded-[3px] transition-colors duration-150 ${
-                      isHovered ? "bg-[#B4F435]/20 text-white" : ""
+                      isHovered ? "bg-[#0A0A0B]/15 text-[#0A0A0B]" : ""
                     }`}
                   >
                     {part.link ? (
@@ -203,7 +203,7 @@ export default function AICitations({
                         href={part.link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-0.5 font-medium text-[#B4F435] underline decoration-[#B4F435]/50 underline-offset-2 hover:text-[#c7ff54]"
+                        className="inline-flex items-center gap-0.5 font-bold text-[#0A0A0B] underline decoration-[#0A0A0B]/50 underline-offset-2 hover:decoration-[#0A0A0B]"
                       >
                         <span>{part.text}</span>
                         <ArrowUpRight className="size-3 shrink-0" />
@@ -214,10 +214,10 @@ export default function AICitations({
                   </span>
                   {" "}
                   <button
-                    className={`inline-flex h-5 items-center gap-1.5 rounded-full py-0 pr-2 pl-1 align-baseline font-medium text-[11px] outline-none transition-all duration-150 ${
+                    className={`inline-flex h-5 items-center gap-1.5 rounded-full py-0 pr-2 pl-1 align-baseline font-semibold text-[11px] outline-none transition-all duration-150 ${
                       isHovered
-                        ? "bg-white text-zinc-950 scale-105"
-                        : "bg-white/10 text-zinc-300 hover:bg-white/15"
+                        ? "bg-[#0A0A0B] text-[#B4F435] scale-105"
+                        : "bg-[#0A0A0B]/15 text-[#0A0A0B] hover:bg-[#0A0A0B]/25"
                     }`}
                     onClick={(e) => showPreview(index, e.currentTarget)}
                     onMouseEnter={(e) => showPreview(index, e.currentTarget)}
@@ -281,19 +281,19 @@ export default function AICitations({
 
           {/* Collapsible Source Drawer */}
           {cited.length > 0 && (
-            <div className="mt-4 pt-3 border-t border-white/10">
+            <div className="mt-4 pt-3 border-t border-[#0A0A0B]/15">
               <button
-                className="flex items-center gap-2 text-xs text-zinc-400 hover:text-zinc-200 transition-colors"
+                className="flex items-center gap-2 text-xs font-semibold text-[#0A0A0B]/80 hover:text-[#0A0A0B] transition-colors cursor-pointer"
                 onClick={() => setListOpen(!listOpen)}
                 type="button"
               >
                 <span className="flex -space-x-1">
                   {cited.slice(0, 3).map((source) => (
                     <Monogram
-                      className="size-4 rounded-full ring-2 ring-zinc-900"
+                      className="size-4 rounded-full ring-2 ring-[#B4F435]"
                       key={source.id}
                       source={source}
-                      tint={tints.get(source.site || source.id)}
+                      tint="bg-[#0A0A0B] text-[#B4F435]"
                     />
                   ))}
                 </span>
@@ -319,15 +319,15 @@ export default function AICitations({
                       return (
                         <li key={source.id}>
                           <a
-                            className="flex items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-xs text-zinc-300 hover:bg-white/5 transition-colors group"
+                            className="flex items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-xs font-medium text-[#0A0A0B] hover:bg-[#0A0A0B]/10 transition-colors group"
                             href={source.url}
                             target={isExternal ? "_blank" : undefined}
                             rel={isExternal ? "noopener noreferrer" : undefined}
                           >
-                            <span className="w-3 text-zinc-500 tabular-nums">{index + 1}</span>
-                            <Monogram source={source} tint={tints.get(source.site || source.id)} />
+                            <span className="w-3 text-[#0A0A0B]/60 tabular-nums">{index + 1}</span>
+                            <Monogram source={source} tint="bg-[#0A0A0B] text-[#B4F435]" />
                             <span className="flex-1 truncate">{source.title}</span>
-                            <ArrowUpRight className="size-3.5 text-zinc-500 group-hover:text-[#B4F435] transition-colors" />
+                            <ArrowUpRight className="size-3.5 text-[#0A0A0B]/60 group-hover:text-[#0A0A0B] transition-colors" />
                           </a>
                         </li>
                       );

@@ -3,6 +3,7 @@ import UserCursor from './components/UserCursor';
 import ScrollRevealController from './components/ScrollRevealController';
 import AISearchSection from './components/AISearchSection';
 import SkillsDeck from './components/SkillsDeck';
+import CareerLogos from './components/CareerLogos';
 import PixelTrail from './components/PixelTrail';
 import ProfessionalJourney from './components/ProfessionalJourney';
 import AcademicsSection from './components/AcademicsSection';
@@ -280,6 +281,7 @@ export default function Home() {
           <p className="ug-subtitle ug-journey-big-subtitle">
             2+ years engineering commercial web applications, scaling frontend performance, and shipping pixel-accurate code.
           </p>
+          <CareerLogos />
         </div>
 
         <ProfessionalJourney />

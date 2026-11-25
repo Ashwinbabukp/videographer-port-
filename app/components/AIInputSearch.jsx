@@ -334,23 +334,23 @@ export default function AIInputSearch({
 
   return (
     <MotionConfig reducedMotion="user">
-      <div className={`mx-auto w-full max-w-lg ${className}`}>
+      <div className={`mx-auto w-full min-w-0 max-w-lg box-border ${className}`}>
         {/* Soft Frame Card */}
-        <div className="relative w-full rounded-[22px] bg-white/[0.04] p-1.5 border border-white/10 shadow-2xl backdrop-blur-xl transition-colors focus-within:border-[#B4F435]/40">
+        <div className="relative w-full min-w-0 rounded-[22px] bg-white/[0.04] p-1.5 border border-white/10 shadow-2xl backdrop-blur-xl transition-colors focus-within:border-[#B4F435]/40">
           {/* Tool Header Banner */}
-          <div className="flex h-9 items-center justify-between px-3 text-xs text-white/60">
-            <span className="flex items-center gap-2 truncate">
+          <div className="flex h-9 items-center justify-between gap-2 px-2.5 sm:px-3 text-xs text-white/60">
+            <span className="flex min-w-0 flex-1 items-center gap-1.5 sm:gap-2 truncate">
               {tool ? (
                 <>
-                  <tool.icon className="size-3.5" style={{ color: tool.color }} />
+                  <tool.icon className="size-3.5 shrink-0" style={{ color: tool.color }} />
                   <span className="truncate text-white/80">{tool.hint || tool.label}</span>
                 </>
               ) : (
-                <span>No tool picked, direct answering active</span>
+                <span className="truncate">No tool picked, direct answering active</span>
               )}
             </span>
             <button
-              className="flex items-center gap-1.5 rounded-md bg-white/[0.08] hover:bg-white/[0.14] px-2 py-1 text-[11px] font-medium text-white/90 border border-white/10 transition-colors shadow-sm outline-none cursor-pointer"
+              className="flex shrink-0 items-center gap-1.5 rounded-md bg-white/[0.08] hover:bg-white/[0.14] px-2 py-1 text-[11px] font-medium text-white/90 border border-white/10 transition-colors shadow-sm outline-none cursor-pointer"
               onClick={() => setToolsOpen(!toolsOpen)}
               type="button"
             >
@@ -446,7 +446,7 @@ export default function AIInputSearch({
             />
 
             {/* Controls Row */}
-            <div className="flex items-center gap-1.5 px-3 pb-2.5 pt-1 relative">
+            <div className="flex flex-wrap sm:flex-nowrap items-center gap-1.5 px-2.5 sm:px-3 pb-2.5 pt-1 relative">
               {/* Plus Button */}
               <button
                 aria-label="Attach files"
@@ -470,93 +470,94 @@ export default function AIInputSearch({
 
               {/* Tool Pill */}
               <button
-                className="flex h-8 items-center gap-1.5 rounded-full px-2.5 text-xs font-medium text-white/80 hover:bg-white/10 transition-colors cursor-pointer border-0 outline-none bg-transparent"
+                className="flex h-8 shrink-0 items-center gap-1.5 rounded-full px-2 sm:px-2.5 text-xs font-medium text-white/80 hover:bg-white/10 transition-colors cursor-pointer border-0 outline-none bg-transparent whitespace-nowrap"
                 onClick={() => setToolsOpen(!toolsOpen)}
                 type="button"
               >
                 {tool ? (
                   <>
-                    <tool.icon className="size-3.5" style={{ color: tool.color }} />
-                    <span>{tool.label}</span>
+                    <tool.icon className="size-3.5 shrink-0" style={{ color: tool.color }} />
+                    <span className="max-w-[82px] sm:max-w-none truncate">{tool.label}</span>
                   </>
                 ) : (
                   <>
-                    <Settings2 className="size-3.5 text-white/60" />
+                    <Settings2 className="size-3.5 text-white/60 shrink-0" />
                     <span>Tools</span>
                   </>
                 )}
-                <ChevronDown className="size-3 opacity-60" />
+                <ChevronDown className="size-3 opacity-60 shrink-0" />
               </button>
 
-              <div className="flex-1" />
+              {/* Right Group: Model + Ask (Always Right-Aligned) */}
+              <div className="ml-auto flex items-center gap-1.5 shrink-0">
+                {/* Model Menu Button */}
+                <div className="relative shrink-0">
+                  <button
+                    className="flex h-8 items-center gap-1 rounded-full px-2 sm:px-2.5 text-xs text-white/70 hover:bg-white/10 hover:text-white transition-colors cursor-pointer border-0 outline-none bg-transparent"
+                    onClick={() => setModelOpen(!modelOpen)}
+                    type="button"
+                  >
+                    <span className="truncate max-w-[76px] sm:max-w-[130px]">{model}</span>
+                    <ChevronDown className="size-3 opacity-60 shrink-0" />
+                  </button>
 
-              {/* Model Menu Button */}
-              <div className="relative">
+                  <AnimatePresence>
+                    {modelOpen && (
+                      <motion.div
+                        animate={{ opacity: 1, y: 0 }}
+                        className="absolute right-0 bottom-10 z-50 w-48 rounded-xl bg-zinc-900 border border-white/15 p-1 shadow-2xl"
+                        exit={{ opacity: 0, y: 4 }}
+                        initial={{ opacity: 0, y: 4 }}
+                        transition={{ duration: 0.15 }}
+                      >
+                        {models.map((m) => (
+                          <button
+                            className={`flex w-full items-center justify-between rounded-lg px-2.5 py-1.5 text-xs text-left cursor-pointer border-0 outline-none ${
+                              m === model
+                                ? "bg-white/10 text-white font-medium"
+                                : "text-white/60 hover:bg-white/5 hover:text-white"
+                            }`}
+                            key={m}
+                            onClick={() => {
+                              setModel(m);
+                              setModelOpen(false);
+                            }}
+                            type="button"
+                          >
+                            <span className="truncate">{m}</span>
+                            {m === model && <Check className="size-3.5 text-[#B4F435]" />}
+                          </button>
+                        ))}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+
+                {/* Send / Stop Button */}
                 <button
-                  className="flex h-8 items-center gap-1 rounded-full px-2.5 text-xs text-white/70 hover:bg-white/10 hover:text-white transition-colors cursor-pointer border-0 outline-none bg-transparent"
-                  onClick={() => setModelOpen(!modelOpen)}
+                  aria-label={running ? "Stop" : "Ask"}
+                  className={`flex h-8 shrink-0 items-center gap-1.5 rounded-full px-3.5 text-xs font-semibold transition-all border-0 outline-none ${
+                    canSubmit || running
+                      ? "bg-[#B4F435] text-[#0A0A0B] shadow-[0_0_18px_rgba(180,244,53,0.35)] hover:bg-[#c5f85d] cursor-pointer"
+                      : "bg-[#B4F435]/85 text-[#0A0A0B] hover:bg-[#B4F435] cursor-pointer"
+                  }`}
+                  disabled={!canSubmit && !running}
+                  onClick={running ? stop : submit}
                   type="button"
                 >
-                  <span className="truncate max-w-[130px]">{model}</span>
-                  <ChevronDown className="size-3 opacity-60" />
-                </button>
-
-                <AnimatePresence>
-                  {modelOpen && (
-                    <motion.div
-                      animate={{ opacity: 1, y: 0 }}
-                      className="absolute right-0 bottom-10 z-50 w-48 rounded-xl bg-zinc-900 border border-white/15 p-1 shadow-2xl"
-                      exit={{ opacity: 0, y: 4 }}
-                      initial={{ opacity: 0, y: 4 }}
-                      transition={{ duration: 0.15 }}
-                    >
-                      {models.map((m) => (
-                        <button
-                          className={`flex w-full items-center justify-between rounded-lg px-2.5 py-1.5 text-xs text-left cursor-pointer border-0 outline-none ${
-                            m === model
-                              ? "bg-white/10 text-white font-medium"
-                              : "text-white/60 hover:bg-white/5 hover:text-white"
-                          }`}
-                          key={m}
-                          onClick={() => {
-                            setModel(m);
-                            setModelOpen(false);
-                          }}
-                          type="button"
-                        >
-                          <span className="truncate">{m}</span>
-                          {m === model && <Check className="size-3.5 text-[#B4F435]" />}
-                        </button>
-                      ))}
-                    </motion.div>
+                  {running ? (
+                    <>
+                      <span>Stop</span>
+                      <span className="size-2 rounded-[2px] bg-current" />
+                    </>
+                  ) : (
+                    <>
+                      <span>Ask</span>
+                      <CornerDownLeft className="size-3.5 opacity-70" />
+                    </>
                   )}
-                </AnimatePresence>
+                </button>
               </div>
-
-              {/* Send / Stop Button */}
-              <button
-                aria-label={running ? "Stop" : "Ask"}
-                className={`flex h-8 items-center gap-1.5 rounded-full px-3.5 text-xs font-semibold transition-all border-0 outline-none ${
-                  canSubmit || running
-                    ? "bg-[#B4F435] text-[#0A0A0B] shadow-[0_0_18px_rgba(180,244,53,0.35)] hover:bg-[#c5f85d] cursor-pointer"
-                    : "bg-[#B4F435]/85 text-[#0A0A0B] hover:bg-[#B4F435] cursor-pointer"
-                }`}
-                disabled={!canSubmit && !running}
-                onClick={running ? stop : submit}
-                type="button"
-              >
-                {running ? (
-                  <>
-                    <span>Stop</span>
-                    <span className="size-2 rounded-[2px] bg-current" />
-                  </>
-                ) : (
-                  <>
-                    <span>Ask</span>
-                    <CornerDownLeft className="size-3.5 opacity-70" />
-                  </>
-                )}
-              </button>
             </div>
           </div>
 

@@ -131,11 +131,11 @@ export default function AISearchSection() {
   return (
     <section
       id="ai-search"
-      className="relative z-20 w-full border-t border-b border-white/[0.08] bg-[#070709] py-10 px-4 sm:px-6 md:px-8"
+      className="relative z-20 w-full overflow-x-hidden border-t border-b border-white/[0.08] bg-[#070709] py-10 px-3 sm:px-6 md:px-8 box-border"
     >
-      <div className="mx-auto flex w-full max-w-4xl flex-col items-center justify-center text-center">
+      <div className="mx-auto flex w-full max-w-4xl min-w-0 flex-col items-center justify-center text-center">
         {/* Search Input Box */}
-        <div className="w-full flex justify-center">
+        <div className="w-full min-w-0 flex justify-center">
           <AIInputSearch
             onSearch={handleSearch}
             className="w-full max-w-2xl"
@@ -153,29 +153,29 @@ export default function AISearchSection() {
           </div>
         )}
 
-        {/* Results Card with Kokonut Citations */}
+        {/* Results Card with Kokonut Citations (Green Background + Black Text) */}
         {queryState.result && !queryState.isLoading && (
-          <div className="mt-8 w-full max-w-2xl text-left animate-in fade-in-50 duration-300">
-            <div className="rounded-2xl border border-white/15 bg-zinc-950/90 p-5 shadow-2xl backdrop-blur-md">
+          <div className="mt-6 w-full max-w-2xl text-left animate-in fade-in-50 duration-300">
+            <div className="rounded-2xl border border-[#B4F435] bg-[#B4F435] text-[#0A0A0B] p-5 shadow-[0_20px_50px_rgba(180,244,53,0.2)]">
               {/* Question Bar & Controls */}
-              <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-4">
+              <div className="flex items-center justify-between gap-2 border-b border-[#0A0A0B]/15 pb-3 mb-4">
                 <div className="flex items-center gap-2 min-w-0">
-                  <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-[#B4F435]/15 text-[#B4F435] text-xs font-mono">
+                  <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-[#0A0A0B] text-[#B4F435] text-xs font-mono font-bold">
                     AI
                   </span>
-                  <span className="text-xs font-medium text-zinc-300 truncate">
+                  <span className="text-xs font-semibold text-[#0A0A0B] truncate">
                     &ldquo;{queryState.activeQuery}&rdquo;
                   </span>
                 </div>
                 <div className="flex items-center gap-2 shrink-0">
-                  <span className="rounded border border-[#B4F435]/30 bg-[#B4F435]/10 px-1.5 py-0.5 text-[10px] font-mono text-[#B4F435]">
+                  <span className="rounded border border-[#0A0A0B]/25 bg-[#0A0A0B]/10 px-1.5 py-0.5 text-[10px] font-mono font-semibold text-[#0A0A0B]">
                     {queryState.result.modelLabel || "GPT-OSS 20B (OpenSource)"}
                   </span>
                   <button
                     onClick={handleReset}
                     type="button"
                     title="Ask another question"
-                    className="flex items-center gap-1 text-[11px] text-zinc-400 hover:text-white transition-colors"
+                    className="flex items-center gap-1 text-[11px] font-semibold text-[#0A0A0B]/75 hover:text-[#0A0A0B] transition-colors cursor-pointer"
                   >
                     <RotateCcw className="size-3" />
                     <span>Clear</span>
@@ -187,29 +187,30 @@ export default function AISearchSection() {
               <AICitations
                 parts={queryState.result.parts}
                 sources={queryState.result.sources}
+                className="max-w-none py-0"
               />
 
               {/* Quick Jump Action */}
-              <div className="mt-4 pt-3 border-t border-white/5 flex flex-wrap items-center justify-between gap-2 text-xs text-zinc-400">
-                <span>Direct jump to verified portfolio section:</span>
-                <div className="flex items-center gap-2">
+              <div className="mt-4 pt-3 border-t border-[#0A0A0B]/15 flex flex-wrap items-center justify-between gap-2 text-xs text-[#0A0A0B]/80">
+                <span className="font-medium">Direct jump to verified portfolio section:</span>
+                <div className="flex items-center gap-2 font-semibold">
                   <a
                     href="#work"
-                    className="inline-flex items-center gap-1 text-[#B4F435] hover:text-[#c7ff54] hover:underline"
+                    className="inline-flex items-center gap-1 text-[#0A0A0B] hover:underline"
                   >
                     Projects <ArrowRight className="size-3" />
                   </a>
-                  <span className="text-zinc-600">·</span>
+                  <span className="text-[#0A0A0B]/40">·</span>
                   <a
                     href="#experience"
-                    className="inline-flex items-center gap-1 text-[#B4F435] hover:text-[#c7ff54] hover:underline"
+                    className="inline-flex items-center gap-1 text-[#0A0A0B] hover:underline"
                   >
                     Experience <ArrowRight className="size-3" />
                   </a>
-                  <span className="text-zinc-600">·</span>
+                  <span className="text-[#0A0A0B]/40">·</span>
                   <a
                     href="#skills"
-                    className="inline-flex items-center gap-1 text-[#B4F435] hover:text-[#c7ff54] hover:underline"
+                    className="inline-flex items-center gap-1 text-[#0A0A0B] hover:underline"
                   >
                     Skills <ArrowRight className="size-3" />
                   </a>

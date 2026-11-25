@@ -118,6 +118,7 @@ export function BaseHoverImageReveal({
     list.push({
       text: it?.text ?? fallback?.text ?? `Item ${i}`,
       image: it?.image ?? (fallback ? { src: fallback.src } : undefined),
+      previewUrl: it?.previewUrl,
       link: it?.link ?? fallback?.link,
       color: it?.color,
     });
@@ -166,6 +167,7 @@ export function BaseHoverImageReveal({
           translateY: "-50%",
           width: imageWidth,
           height: imageHeight,
+          aspectRatio: "16 / 9",
           maxWidth: "85vw",
           maxHeight: "75vh",
           borderRadius: rounded,
@@ -203,7 +205,32 @@ export function BaseHoverImageReveal({
                 background: "#0E0E10",
               }}
             >
-              {src ? (
+              {item.previewUrl ? (
+                <div
+                  style={{
+                    position: "relative",
+                    width: "100%",
+                    height: "100%",
+                    overflow: "hidden",
+                    background: "#0A0A0B",
+                  }}
+                >
+                  <iframe
+                    src={item.previewUrl}
+                    title={item.text || "Live Site Preview"}
+                    loading="lazy"
+                    style={{
+                      width: "1280px",
+                      height: "720px",
+                      border: "none",
+                      transform: "scale(0.4375)",
+                      transformOrigin: "top left",
+                      pointerEvents: "none",
+                      background: "#0A0A0B",
+                    }}
+                  />
+                </div>
+              ) : src ? (
                 <img
                   src={src}
                   alt={item.image?.alt || item.text || ""}
@@ -287,6 +314,12 @@ export function BaseHoverImageReveal({
               {item.link ? (
                 <a
                   href={item.link}
+                  target={item.link.startsWith("http") ? "_blank" : undefined}
+                  rel={
+                    item.link.startsWith("http")
+                      ? "noopener noreferrer"
+                      : undefined
+                  }
                   style={{
                     textDecoration: "none",
                     color: "inherit",
