@@ -48,6 +48,33 @@ function Monogram({ source, tint, className = "" }) {
   );
 }
 
+function renderTextWithLinks(text) {
+  if (!text) return null;
+  const urlRegex = /(https?:\/\/[^\s),]+)/g;
+  const segments = text.split(urlRegex);
+  return segments.map((seg, idx) => {
+    if (/^https?:\/\//.test(seg)) {
+      const cleanUrl = seg.replace(/[.,;!?]+$/, "");
+      const trailing = seg.slice(cleanUrl.length);
+      return (
+        <span key={idx}>
+          <a
+            href={cleanUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-0.5 font-medium text-[#B4F435] underline decoration-[#B4F435]/50 underline-offset-2 hover:text-[#c7ff54]"
+          >
+            <span>{cleanUrl}</span>
+            <ArrowUpRight className="size-3 shrink-0" />
+          </a>
+          {trailing}
+        </span>
+      );
+    }
+    return <span key={idx}>{seg}</span>;
+  });
+}
+
 export default function AICitations({
   parts = [],
   sources = [],
@@ -57,6 +84,27 @@ export default function AICitations({
   const [activePreview, setActivePreview] = useState(null);
   const [listOpen, setListOpen] = useState(false);
   const timerRef = useRef(null);
+
+  // Word-by-word streaming reveal animation ("text coming" effect)
+  const fullText = parts.map((p) => p.text || "").join("");
+  const words = fullText.split(/(\s+)/);
+  const [visibleCount, setVisibleCount] = useState(0);
+  const isStreaming = visibleCount < words.length;
+
+  useEffect(() => {
+    setVisibleCount(0);
+    if (words.length === 0) return;
+    const interval = setInterval(() => {
+      setVisibleCount((prev) => {
+        if (prev + 1 >= words.length) {
+          clearInterval(interval);
+          return words.length;
+        }
+        return prev + 1;
+      });
+    }, 45);
+    return () => clearInterval(interval);
+  }, [fullText]);
 
   const byId = new Map(sources.map((source) => [source.id, source]));
   const tints = siteTints(sources);
@@ -104,15 +152,40 @@ export default function AICitations({
     <MotionConfig reducedMotion="user">
       <div className={`relative w-full max-w-lg mx-auto py-2 text-left ${className}`} ref={rootRef}>
         <div className="rounded-2xl bg-zinc-900/90 border border-white/10 p-5 shadow-2xl backdrop-blur-md">
-          {/* Answer Text with Inline Citations */}
+          {/* Answer Text with Streaming Reveal & Inline Citations */}
           <p className="text-[15px] leading-relaxed text-zinc-200">
-            {parts.map((part, index) => {
+            {isStreaming ? (
+              <>
+                <span>{words.slice(0, visibleCount).join("")}</span>
+                <span
+                  aria-hidden="true"
+                  className="inline-block w-1.5 h-4 ml-0.5 align-middle bg-[#B4F435] rounded-[1px] animate-pulse"
+                />
+              </>
+            ) : (
+              parts.map((part, index) => {
               const partSources = (part.cite || [])
                 .map((id) => byId.get(id))
                 .filter(Boolean);
 
               if (partSources.length === 0) {
-                return <span key={index}>{part.text}</span>;
+                return (
+                  <span key={index}>
+                    {part.link ? (
+                      <a
+                        href={part.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-0.5 font-medium text-[#B4F435] underline decoration-[#B4F435]/50 underline-offset-2 hover:text-[#c7ff54]"
+                      >
+                        <span>{part.text}</span>
+                        <ArrowUpRight className="size-3 shrink-0" />
+                      </a>
+                    ) : (
+                      renderTextWithLinks(part.text)
+                    )}
+                  </span>
+                );
               }
 
               const first = partSources[0];
@@ -122,10 +195,22 @@ export default function AICitations({
                 <span key={index}>
                   <span
                     className={`rounded-[3px] transition-colors duration-150 ${
-                      isHovered ? "bg-sky-400/20 text-sky-100" : ""
+                      isHovered ? "bg-[#B4F435]/20 text-white" : ""
                     }`}
                   >
-                    {part.text}
+                    {part.link ? (
+                      <a
+                        href={part.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-0.5 font-medium text-[#B4F435] underline decoration-[#B4F435]/50 underline-offset-2 hover:text-[#c7ff54]"
+                      >
+                        <span>{part.text}</span>
+                        <ArrowUpRight className="size-3 shrink-0" />
+                      </a>
+                    ) : (
+                      renderTextWithLinks(part.text)
+                    )}
                   </span>
                   {" "}
                   <button
@@ -152,7 +237,8 @@ export default function AICitations({
                   {" "}
                 </span>
               );
-            })}
+            })
+            )}
           </p>
 
           {/* Floating Hover Card for Citations */}
@@ -228,19 +314,24 @@ export default function AICitations({
                     initial={{ height: 0, opacity: 0 }}
                     transition={{ duration: 0.22, ease: EASE_OUT }}
                   >
-                    {cited.map((source, index) => (
-                      <li key={source.id}>
-                        <a
-                          className="flex items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-xs text-zinc-300 hover:bg-white/5 transition-colors group"
-                          href={source.url}
-                        >
-                          <span className="w-3 text-zinc-500 tabular-nums">{index + 1}</span>
-                          <Monogram source={source} tint={tints.get(source.site || source.id)} />
-                          <span className="flex-1 truncate">{source.title}</span>
-                          <ArrowUpRight className="size-3.5 text-zinc-500 group-hover:text-white transition-colors" />
-                        </a>
-                      </li>
-                    ))}
+                    {cited.map((source, index) => {
+                      const isExternal = source.url?.startsWith("http");
+                      return (
+                        <li key={source.id}>
+                          <a
+                            className="flex items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-xs text-zinc-300 hover:bg-white/5 transition-colors group"
+                            href={source.url}
+                            target={isExternal ? "_blank" : undefined}
+                            rel={isExternal ? "noopener noreferrer" : undefined}
+                          >
+                            <span className="w-3 text-zinc-500 tabular-nums">{index + 1}</span>
+                            <Monogram source={source} tint={tints.get(source.site || source.id)} />
+                            <span className="flex-1 truncate">{source.title}</span>
+                            <ArrowUpRight className="size-3.5 text-zinc-500 group-hover:text-[#B4F435] transition-colors" />
+                          </a>
+                        </li>
+                      );
+                    })}
                   </motion.ol>
                 )}
               </AnimatePresence>

@@ -2,19 +2,11 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { Sparkles, MessageSquare, RotateCcw, ArrowRight } from "lucide-react";
+import { RotateCcw, ArrowRight } from "lucide-react";
 import AIInputSearch from "./AIInputSearch";
 import AILoadingState, { DEFAULT_AI_STEPS } from "./AILoadingState";
 import AICitations from "./AICitations";
 import { askPortfolioAI } from "../lib/portfolioAI";
-
-const SAMPLE_QUESTIONS = [
-  "What projects has Ashwin built with Next.js & React?",
-  "Tell me about his experience at FaatLab Technologies",
-  "What is his full technical stack and frontend skills?",
-  "What are his academics and degree CGPA?",
-  "Is Ashwin available for immediate hiring?",
-];
 
 export default function AISearchSection() {
   const [queryState, setQueryState] = useState({
@@ -77,15 +69,10 @@ export default function AISearchSection() {
     try {
       const response = await askPortfolioAI(query, {
         signal,
-        onSource: (source) => {
-          if (onSource) {
-            onSource({
-              domain: source.site ? `${source.site.toLowerCase()}.ashwin.dev` : "ashwin.dev",
-              title: source.title,
-              color: "#10b981",
-            });
-          }
-        },
+        tool,
+        model,
+        files,
+        onSource,
       });
 
       clearTimeout(stepTimer1);
@@ -144,52 +131,20 @@ export default function AISearchSection() {
   return (
     <section
       id="ai-search"
-      className="relative z-20 w-full border-t border-b border-white/[0.08] bg-[#070709] py-16 px-4 sm:px-6 md:px-8"
-      style={{
-        backgroundImage:
-          "radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.04) 0%, transparent 60%)",
-      }}
+      className="relative z-20 w-full border-t border-b border-white/[0.08] bg-[#070709] py-10 px-4 sm:px-6 md:px-8"
     >
-      <div className="mx-auto flex w-full max-w-4xl flex-col items-center text-center">
-        {/* Section Heading */}
-        <h2 className="text-2xl font-bold tracking-tight text-white sm:text-3xl md:text-4xl">
-          Ask Anything About My Work &amp; Stack
-        </h2>
-        <p className="mt-2.5 max-w-xl text-sm leading-relaxed text-zinc-400">
-          Instant answers powered by free open-source AI with direct
-          portfolio-indexed citations, technical metrics, and code references.
-        </p>
-
+      <div className="mx-auto flex w-full max-w-4xl flex-col items-center justify-center text-center">
         {/* Search Input Box */}
-        <div className="mt-8 w-full flex justify-center">
+        <div className="w-full flex justify-center">
           <AIInputSearch
             onSearch={handleSearch}
             className="w-full max-w-2xl"
           />
         </div>
 
-        {/* Sample Prompt Chips */}
-        {!queryState.isLoading && !queryState.result && (
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-2 max-w-2xl">
-            <span className="text-[11px] font-medium uppercase tracking-wider text-zinc-500 mr-1 flex items-center gap-1">
-              <MessageSquare className="size-3" /> Quick prompts:
-            </span>
-            {SAMPLE_QUESTIONS.map((q) => (
-              <button
-                key={q}
-                onClick={() => handleSampleClick(q)}
-                type="button"
-                className="rounded-full border border-white/10 bg-zinc-900/60 px-3 py-1 text-xs text-zinc-300 transition-all duration-150 hover:border-sky-400/40 hover:bg-zinc-800/80 hover:text-white hover:shadow-[0_0_12px_rgba(56,189,248,0.15)] active:scale-95 text-left cursor-pointer outline-none"
-              >
-                {q}
-              </button>
-            ))}
-          </div>
-        )}
-
         {/* Live Loading State */}
         {queryState.isLoading && (
-          <div className="mt-8 w-full max-w-2xl text-left">
+          <div className="mt-5 w-full max-w-2xl text-left">
             <AILoadingState
               active={true}
               steps={steps}
@@ -205,7 +160,7 @@ export default function AISearchSection() {
               {/* Question Bar & Controls */}
               <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-4">
                 <div className="flex items-center gap-2 min-w-0">
-                  <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-mono">
+                  <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-[#B4F435]/15 text-[#B4F435] text-xs font-mono">
                     AI
                   </span>
                   <span className="text-xs font-medium text-zinc-300 truncate">
@@ -213,8 +168,8 @@ export default function AISearchSection() {
                   </span>
                 </div>
                 <div className="flex items-center gap-2 shrink-0">
-                  <span className="rounded border border-emerald-500/30 bg-emerald-500/10 px-1.5 py-0.5 text-[10px] font-mono text-emerald-400">
-                    OpenSource AI
+                  <span className="rounded border border-[#B4F435]/30 bg-[#B4F435]/10 px-1.5 py-0.5 text-[10px] font-mono text-[#B4F435]">
+                    {queryState.result.modelLabel || "GPT-OSS 20B (OpenSource)"}
                   </span>
                   <button
                     onClick={handleReset}
@@ -240,21 +195,21 @@ export default function AISearchSection() {
                 <div className="flex items-center gap-2">
                   <a
                     href="#work"
-                    className="inline-flex items-center gap-1 text-sky-400 hover:text-sky-300 hover:underline"
+                    className="inline-flex items-center gap-1 text-[#B4F435] hover:text-[#c7ff54] hover:underline"
                   >
                     Projects <ArrowRight className="size-3" />
                   </a>
                   <span className="text-zinc-600">·</span>
                   <a
                     href="#experience"
-                    className="inline-flex items-center gap-1 text-sky-400 hover:text-sky-300 hover:underline"
+                    className="inline-flex items-center gap-1 text-[#B4F435] hover:text-[#c7ff54] hover:underline"
                   >
                     Experience <ArrowRight className="size-3" />
                   </a>
                   <span className="text-zinc-600">·</span>
                   <a
                     href="#skills"
-                    className="inline-flex items-center gap-1 text-sky-400 hover:text-sky-300 hover:underline"
+                    className="inline-flex items-center gap-1 text-[#B4F435] hover:text-[#c7ff54] hover:underline"
                   >
                     Skills <ArrowRight className="size-3" />
                   </a>

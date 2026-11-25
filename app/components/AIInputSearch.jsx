@@ -38,7 +38,7 @@ export const DEFAULT_TOOLS = [
     label: "Browse Portfolio",
     hint: "Answers with links & portfolio citations",
     icon: Globe,
-    color: "#0ea5e9",
+    color: "#B4F435",
     activity: "Browsing portfolio records",
     placeholder: "Ask about Ashwin's projects, skills or background...",
     readsSources: true,
@@ -75,10 +75,8 @@ export const DEFAULT_TOOLS = [
 ];
 
 export const DEFAULT_MODELS = [
-  "Mistral 7B (OpenSource)",
-  "Llama 3.3 (Free)",
-  "DeepSeek R1 (OpenSource)",
-  "Gemini 2.5 Flash",
+  "GPT-OSS 20B (OpenSource)",
+  "GPT-OSS 20B Reasoning",
 ];
 
 const fileKey = (file) => `${file.name}-${file.size}-${file.lastModified}`;
@@ -246,7 +244,7 @@ export default function AIInputSearch({
   tools = DEFAULT_TOOLS,
   defaultTool = "browse",
   models = DEFAULT_MODELS,
-  defaultModel = "Mistral 7B (OpenSource)",
+  defaultModel = "GPT-OSS 20B (OpenSource)",
   onSearch,
   className = "",
 }) {
@@ -338,7 +336,7 @@ export default function AIInputSearch({
     <MotionConfig reducedMotion="user">
       <div className={`mx-auto w-full max-w-lg ${className}`}>
         {/* Soft Frame Card */}
-        <div className="relative w-full rounded-[22px] bg-white/[0.04] p-1.5 border border-white/10 shadow-2xl backdrop-blur-xl">
+        <div className="relative w-full rounded-[22px] bg-white/[0.04] p-1.5 border border-white/10 shadow-2xl backdrop-blur-xl transition-colors focus-within:border-[#B4F435]/40">
           {/* Tool Header Banner */}
           <div className="flex h-9 items-center justify-between px-3 text-xs text-white/60">
             <span className="flex items-center gap-2 truncate">
@@ -396,7 +394,7 @@ export default function AIInputSearch({
                         <div className="text-xs font-medium text-white">{t.label}</div>
                         <div className="text-[11px] text-zinc-400">{t.hint}</div>
                       </div>
-                      {isSelected && <Check className="size-4 text-emerald-400 shrink-0" />}
+                      {isSelected && <Check className="size-4 text-[#B4F435] shrink-0" />}
                     </button>
                   );
                 })}
@@ -527,7 +525,7 @@ export default function AIInputSearch({
                           type="button"
                         >
                           <span className="truncate">{m}</span>
-                          {m === model && <Check className="size-3.5 text-emerald-400" />}
+                          {m === model && <Check className="size-3.5 text-[#B4F435]" />}
                         </button>
                       ))}
                     </motion.div>
@@ -538,10 +536,10 @@ export default function AIInputSearch({
               {/* Send / Stop Button */}
               <button
                 aria-label={running ? "Stop" : "Ask"}
-                className={`flex h-8 items-center gap-1.5 rounded-full px-3 text-xs font-semibold transition-all border-0 outline-none cursor-pointer ${
+                className={`flex h-8 items-center gap-1.5 rounded-full px-3.5 text-xs font-semibold transition-all border-0 outline-none ${
                   canSubmit || running
-                    ? "bg-white text-zinc-950 shadow-md hover:bg-zinc-200"
-                    : "bg-white/10 text-white/35 cursor-not-allowed"
+                    ? "bg-[#B4F435] text-[#0A0A0B] shadow-[0_0_18px_rgba(180,244,53,0.35)] hover:bg-[#c5f85d] cursor-pointer"
+                    : "bg-[#B4F435]/85 text-[#0A0A0B] hover:bg-[#B4F435] cursor-pointer"
                 }`}
                 disabled={!canSubmit && !running}
                 onClick={running ? stop : submit}

@@ -70,7 +70,7 @@ function StepIcon({ status }) {
           {status === "running" && (
             <svg
               aria-hidden="true"
-              className="size-3.5 motion-safe:animate-spin text-emerald-400"
+              className="size-3.5 motion-safe:animate-spin text-[#B4F435]"
               fill="none"
               style={{ animationDuration: "0.8s" }}
               viewBox="0 0 16 16"
@@ -83,7 +83,7 @@ function StepIcon({ status }) {
                 strokeWidth="1.5"
               />
               <path
-                className="stroke-emerald-400"
+                className="stroke-[#B4F435]"
                 d="M8 1.75a6.25 6.25 0 0 1 6.25 6.25"
                 strokeLinecap="round"
                 strokeWidth="1.5"
@@ -93,7 +93,7 @@ function StepIcon({ status }) {
           {status === "done" && (
             <svg
               aria-hidden="true"
-              className="size-3.5 text-emerald-400"
+              className="size-3.5 text-[#B4F435]"
               fill="none"
               viewBox="0 0 16 16"
             >
@@ -230,6 +230,31 @@ function StepRow({ step, isLast }) {
   );
 }
 
+function ThinkingWave({ text }) {
+  return (
+    <span className="inline-flex items-center font-medium">
+      {text.split("").map((char, i) => (
+        <motion.span
+          key={`${text}-${i}`}
+          animate={{
+            opacity: [0.45, 1, 0.45],
+            color: ["#a1a1aa", "#B4F435", "#a1a1aa"],
+          }}
+          transition={{
+            duration: 2.2,
+            repeat: Infinity,
+            delay: i * 0.06,
+            ease: "easeInOut",
+          }}
+          style={{ whiteSpace: char === " " ? "pre" : "normal" }}
+        >
+          {char}
+        </motion.span>
+      ))}
+    </span>
+  );
+}
+
 export default function AILoadingState({
   steps = DEFAULT_AI_STEPS,
   collapseWhenDone = true,
@@ -270,9 +295,11 @@ export default function AILoadingState({
             onClick={() => setIsOpen((open) => !open)}
             type="button"
           >
-            <span className="min-w-0 truncate">{title}</span>
+            <span className="min-w-0 truncate">
+              {isActive ? <ThinkingWave text={`${title}...`} /> : title}
+            </span>
             {isActive && (
-              <span className="text-zinc-400 tabular-nums">
+              <span className="text-[#B4F435]/80 text-xs font-mono tabular-nums">
                 {formatDuration(seconds)}
               </span>
             )}

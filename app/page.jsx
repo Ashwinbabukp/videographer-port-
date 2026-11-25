@@ -1,9 +1,12 @@
 import Hero from './components/Hero';
+import UserCursor from './components/UserCursor';
+import ScrollRevealController from './components/ScrollRevealController';
 import AISearchSection from './components/AISearchSection';
-import CorollaGleam from './components/CorollaGleam';
+import SkillsDeck from './components/SkillsDeck';
 import PixelTrail from './components/PixelTrail';
 import ProfessionalJourney from './components/ProfessionalJourney';
 import AcademicsSection from './components/AcademicsSection';
+import { Globe, MessagesSquare, GraduationCap, Sparkles, ArrowUpRight } from 'lucide-react';
 
 // Helper to highlight key technologies with the clean normal highlighter
 function highlightKeywords(text) {
@@ -142,6 +145,12 @@ export default function Home() {
 
   return (
     <main>
+      {/* Whole-page Scroll Reveal & Progress Bar */}
+      <ScrollRevealController />
+
+      {/* 5-second Opening Custom Cursor ("Hey") */}
+      <UserCursor name="Hey" durationMs={5000} />
+
       {/* Hero Section */}
       <Hero />
 
@@ -149,104 +158,119 @@ export default function Home() {
       <AISearchSection />
 
       {/* [ 01 / FEATURED PROJECTS ] */}
-      <section id="work" className="ug-section">
-        <div className="ug-section-header">
-          <span className="ug-index">[ 01 / FEATURED PROJECTS ]</span>
-          <h2 className="ug-title">Production Web Applications</h2>
-          <p className="ug-subtitle">
-            Commercial products, social platforms, and full-stack web applications built with <span className="ug-highlighter">React</span>, <span className="ug-highlighter">Next.js</span>, and TypeScript.
-          </p>
-        </div>
+      <section id="work" className="values-projects-section">
+        <div className="values-projects-inner">
+          <h2 className="values-projects-heading">
+            Production Web
+            <br />
+            Applications<span style={{ color: '#B4F435' }}>.</span>
+          </h2>
 
-        <div className="ug-projects-grid">
-          {projects.map((proj) => (
-            <div key={proj.title} className="ug-project-card">
-              <div className="ug-card-top">
-                <span className="ug-project-num">{proj.index}</span>
-                <span className="ug-badge">{proj.badge}</span>
-              </div>
+          <div className="values-projects-grid">
+            {projects.map((proj, idx) => {
+              const cardThemes = [
+                {
+                  bg: '#D96BFF',
+                  ink: '#FFFFFF',
+                  subInk: 'rgba(255, 255, 255, 0.92)',
+                  Icon: Globe,
+                },
+                {
+                  bg: '#FF5436',
+                  ink: '#FFFFFF',
+                  subInk: 'rgba(255, 255, 255, 0.92)',
+                  Icon: MessagesSquare,
+                },
+                {
+                  bg: '#B4F435',
+                  ink: '#0A0A0B',
+                  subInk: 'rgba(10, 10, 11, 0.85)',
+                  Icon: GraduationCap,
+                },
+                {
+                  bg: '#4666FF',
+                  ink: '#FFFFFF',
+                  subInk: 'rgba(255, 255, 255, 0.92)',
+                  Icon: Sparkles,
+                },
+              ];
+              const theme = cardThemes[idx % cardThemes.length];
+              const Icon = theme.Icon;
 
-              <div className="ug-card-body">
-                <h3 className="ug-project-title">{proj.title}</h3>
-                <p className="ug-project-desc">{highlightKeywords(proj.subtitle)}</p>
-
-                <ul className="ug-bullet-list">
-                  {proj.highlights.map((h, i) => (
-                    <li key={i}>{highlightKeywords(h)}</li>
-                  ))}
-                </ul>
-
-                <div className="ug-tags-wrap">
-                  {proj.tags.map((t) => {
-                    const isHigh = /(React|Next|Figma)/i.test(t);
-                    return (
-                      <span key={t} className={`ug-tag ${isHigh ? 'is-highlighted' : ''}`}>
-                        {t}
-                      </span>
-                    );
-                  })}
-                </div>
-              </div>
-
-              <div className="ug-card-footer">
-                <a
-                  href={proj.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="ug-link-btn"
+              return (
+                <div
+                  key={proj.title}
+                  className="values-project-card"
+                  style={{
+                    backgroundColor: theme.bg,
+                    color: theme.ink,
+                  }}
                 >
-                  <span>Launch Live App</span>
-                  <span className="ug-arrow">↗</span>
-                </a>
-                {proj.figmaUrl && (
-                  <a
-                    href={proj.figmaUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="ug-link-btn ug-figma-btn"
-                  >
-                    <span>Figma Specs</span>
-                    <span className="ug-arrow">↗</span>
-                  </a>
-                )}
-              </div>
-            </div>
-          ))}
+                  <div className="values-card-header">
+                    <div>
+                      <span className="values-card-index">[{idx + 1}]</span>
+                      <h3 className="values-card-title">{proj.title}</h3>
+                    </div>
+                    <Icon
+                      className="values-card-icon"
+                      strokeWidth={1.6}
+                      aria-hidden="true"
+                    />
+                  </div>
+
+                  <div className="values-card-bottom">
+                    <p
+                      className="values-card-desc"
+                      style={{ color: theme.subInk }}
+                    >
+                      {proj.highlights[0]}
+                    </p>
+                    <div className="values-card-links">
+                      <a
+                        href={proj.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="values-card-link"
+                        style={{
+                          color: theme.ink,
+                          borderColor:
+                            theme.ink === '#0A0A0B'
+                              ? 'rgba(10, 10, 11, 0.28)'
+                              : 'rgba(255, 255, 255, 0.35)',
+                        }}
+                      >
+                        <span>Launch Live App</span>
+                        <ArrowUpRight className="size-3.5" />
+                      </a>
+                      {proj.figmaUrl && (
+                        <a
+                          href={proj.figmaUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="values-card-link"
+                          style={{
+                            color: theme.ink,
+                            borderColor:
+                              theme.ink === '#0A0A0B'
+                                ? 'rgba(10, 10, 11, 0.28)'
+                                : 'rgba(255, 255, 255, 0.35)',
+                          }}
+                        >
+                          <span>Figma Specs</span>
+                          <ArrowUpRight className="size-3.5" />
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </section>
 
       {/* [ 02 / TECHNICAL ARSENAL ] */}
-      <section id="skills" className="ug-section">
-        <div className="ug-section-header">
-          <span className="ug-index">[ 02 / TECHNICAL ARSENAL ]</span>
-          <h2 className="ug-title">Skills &amp; Engineering Stack</h2>
-          <p className="ug-subtitle">
-            Core competencies across modern frontend architecture, UI animation, state management, backend APIs, and creative coding.
-          </p>
-        </div>
-
-        <div className="ug-skills-grid">
-          {skillClusters.map((cluster) => (
-            <div key={cluster.category} className="ug-skill-card">
-              <div className="ug-skill-header">
-                <span className="ug-skill-icon">{cluster.icon}</span>
-                <h3 className="ug-skill-cat">{cluster.category}</h3>
-              </div>
-              <div className="ug-skill-pills">
-                {cluster.skills.map((skill) => {
-                  const isHigh = /(React|Next|Figma)/i.test(skill);
-                  return (
-                    <span key={skill} className={`ug-skill-chip ${isHigh ? 'is-highlighted' : ''}`}>
-                      <span className="chip-dot" />
-                      {skill}
-                    </span>
-                  );
-                })}
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
+      <SkillsDeck />
 
       {/* [ 03 / PROFESSIONAL JOURNEY ] */}
       <section id="experience" className="ug-section ug-journey-section-wrap">
@@ -281,9 +305,9 @@ export default function Home() {
               text="hello.ashwinkp@gmail.com"
               background="#0A0A0B"
               textColor="#FFFFFF"
-              invert={true}
+              invert={false}
               columns={36}
-              pixel={{ color: "#FFFFFF", gap: 1, radius: 1 }}
+              pixel={{ color: "#B4F435", gap: 1, radius: 1 }}
               trail={{ hold: 0.25, fade: 0.45, reach: 1 }}
               font={{
                 fontFamily: "var(--display), Inter, sans-serif",
@@ -353,23 +377,6 @@ export default function Home() {
           <span className="copyright">© 2026 Ashwin K P</span>
         </div>
       </footer>
-
-      {/* Taskit Corolla Gleam Positioned as the Last Element of the Page */}
-      <div className="taskit-corolla-container">
-        <div className="taskit-corolla-scaler">
-          <CorollaGleam
-            background="transparent"
-            scale={330}
-            speed={45}
-            spin={4}
-            breathe={50}
-            placement={{ y: 76 }}
-            style={{ width: "100%", height: "100%" }}
-          />
-        </div>
-        {/* Top fade gradient overlay only */}
-        <div className="taskit-corolla-top-fade" aria-hidden="true" />
-      </div>
     </main>
   );
 }
