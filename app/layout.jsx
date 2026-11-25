@@ -16,6 +16,11 @@ export const metadata = {
   ],
   authors: [{ name: 'Ashwin K P' }],
   creator: 'Ashwin K P',
+  icons: {
+    icon: '/favicon.png',
+    shortcut: '/favicon.png',
+    apple: '/apple-icon.png',
+  },
   openGraph: {
     title: 'Ashwin K P – UI Developer & Frontend Engineer',
     description:
