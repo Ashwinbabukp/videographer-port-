@@ -1,39 +1,10 @@
-// Free Open-Source AI Agent & Portfolio Knowledge Engine
-// Powered by Pollinations Open-Source Classic API (GPT-OSS 20B Reasoning LLM)
+// Free Open-Source AI Agent & Codebase-Indexed Portfolio RAG Engine
+import {
+  PORTFOLIO_KNOWLEDGE,
+  buildKnowledgePrompt,
+} from "./portfolioKnowledge";
 
-export const PORTFOLIO_PROJECTS = [
-  {
-    id: "taskit",
-    name: "Taskit",
-    badge: "Full Stack & 3D WebGL",
-    url: "https://taskit01.vercel.app",
-    stack:
-      "Next.js 16 App Router, React 19, TypeScript, Tailwind CSS v4, Supabase, WebGL2, GLSL",
-  },
-  {
-    id: "sans",
-    name: "SANS — Quotes Social Platform",
-    badge: "Social Media Web App",
-    url: "https://sans01.vercel.app",
-    stack: "React.js, Next.js, TypeScript, Tailwind CSS, Google OAuth, Vercel",
-  },
-  {
-    id: "applyeuropa",
-    name: "Apply Europa",
-    badge: "European Education Portal",
-    url: "https://applyeuropa.com",
-    figmaUrl:
-      "https://www.figma.com/design/uve2zKh9reAoFHNVlHaKaP/Apply-Europa?node-id=0-1&t=U4FkYsc3ODfjFvmy-1",
-    stack: "React.js, Next.js, TypeScript, Tailwind CSS, Figma Specs, REST APIs",
-  },
-  {
-    id: "leadz",
-    name: "Leadz Study Abroad",
-    badge: "Consultancy Web Platform",
-    url: "https://leadzstudyabroad.com",
-    stack: "React.js, Tailwind CSS, JavaScript, GSAP Timeline Animations",
-  },
-];
+export const PORTFOLIO_PROJECTS = PORTFOLIO_KNOWLEDGE.projects;
 
 export const PORTFOLIO_SOURCES = [
   {
@@ -70,11 +41,11 @@ export const PORTFOLIO_SOURCES = [
   },
   {
     id: "experience",
-    title: "Professional Journey & Commercial Milestones",
+    title: "Professional Journey & Career Milestones",
     url: "#experience",
     site: "Experience",
     snippet:
-      "UI Developer at FaatLab Technologies (Jun 2024 – Jan 2026): Built 8+ commercial web applications, cut page load times by up to 30%, translated 15+ complex Figma design systems into scalable Next.js & React production code.",
+      "UI Developer at FaatLab Technologies (Jun 2024 – Jan 2026): Built 8+ commercial web apps, cut page load times by 30%, translated 15+ Figma design systems into Next.js & React. Intern at Luminar Technolab (2023).",
   },
   {
     id: "projects",
@@ -86,11 +57,11 @@ export const PORTFOLIO_SOURCES = [
   },
   {
     id: "skills",
-    title: "Technical Arsenal & Core Stack",
+    title: "Skills & Engineering Stack",
     url: "#skills",
     site: "Skills",
     snippet:
-      "Core stack includes React 19, Next.js 16 App Router, TypeScript, Tailwind CSS v4, WebGL2, GLSL Fragment Shaders, GSAP Timeline, Redux Toolkit, Node.js, Express, and Supabase (PostgreSQL).",
+      "React.js, Next.js (App Router, SSR/SSG), TypeScript, Tailwind CSS, Figma, GSAP, Framer Motion, Redux Toolkit, Node.js, Supabase (PostgreSQL), WebGL2, GLSL, Cursor & Claude Code.",
   },
   {
     id: "academics",
@@ -98,105 +69,137 @@ export const PORTFOLIO_SOURCES = [
     url: "#education",
     site: "Academics",
     snippet:
-      "Graduated with First Class distinction and academic merit of 7.8 CGPA from Nehru Arts & Science College, Coimbatore (Class of 2022), with in-depth study of algorithms, RDBMS, and web architectures.",
+      "Graduated with First Class distinction and 7.8 CGPA from Nehru Arts & Science College, Coimbatore (2022).",
   },
   {
     id: "contact",
-    title: "Availability & Contact Details",
+    title: "Availability, CV & Contact Details",
     url: "#contact",
     site: "Contact",
     snippet:
-      "Based in Bengaluru, India. Immediate joiner. Contact via WhatsApp/Phone (+91 70346 33646) or Email (hello.ashwinkp@gmail.com). Fluent in Malayalam, English, Tamil & Hindi.",
+      "Based in Bengaluru, India. Immediate joiner. Phone/WhatsApp: +91 7034333646 | Email: hello.ashwinkp@gmail.com | Pexels: https://www.pexels.com/@ashwin/",
   },
 ];
 
-const SYSTEM_PROMPT = `You are the live AI Assistant on Ashwin K P's personal portfolio website.
+// Fuzzy keyword matching (handles typos like "experince", "proejct", "skils", etc.)
+function matchesAny(q, terms) {
+  return terms.some((t) => q.includes(t));
+}
 
-Behavior rules:
-1. Respond naturally like a real, helpful AI agent. If the user says "hey", "hi", "hello", or asks a casual/general question, reply naturally and concisely—do NOT dump Ashwin's resume unprompted.
-2. When the user asks about Ashwin K P, his work, projects, links, skills, experience, education, or contact info, answer accurately using ONLY the verified portfolio facts below.
-3. If the user asks for project links or URLs, ALWAYS include the exact https:// URLs.
-4. Keep answers clear, direct, and concise (usually 1–4 sentences unless more detail is requested).
-
-Verified Portfolio Data for Ashwin K P:
-- Name & Role: Ashwin K P — UI Developer & Frontend Engineer (2+ years experience)
-- Location & Availability: Bengaluru, India • Immediate Joiner • Languages: Malayalam, English, Tamil, Hindi
-- Contact: Email: hello.ashwinkp@gmail.com | Phone / WhatsApp: +91 70346 33646
-- Experience:
-  * UI Developer at FaatLab Technologies (Jun 2024 – Jan 2026): Built 8+ commercial web applications (15+ responsive pages) from Figma & Adobe XD using React, Next.js, TypeScript, Tailwind CSS; cut page load times by up to 30% via code-splitting, lazy loading, and hybrid SSR/SSG; integrated REST APIs, Redux Toolkit, GSAP timelines, and automated Vercel + GitHub Actions CI/CD.
-  * MERN Stack / UI Developer Intern at Luminar Technolab, Kochi (Mar 2023 – Sep 2023): React.js, Node.js, Express.js, MongoDB, HTML5, CSS3, Bootstrap.
-- Featured Projects & Exact Live URLs:
-  1. Taskit (Full Stack & 3D WebGL — Next.js 16 App Router, React 19, TypeScript, Tailwind v4, Supabase PostgreSQL, Google OAuth 2.0, WebGL2 & GLSL shaders): https://taskit01.vercel.app
-  2. SANS — Quotes Social Platform (Reels-style quote feed, client-side editor, React.js, Next.js, TypeScript, OAuth 2.0, Vercel): https://sans01.vercel.app
-  3. Apply Europa (European Education Portal — Next.js, React.js, TypeScript, Tailwind CSS, Figma to Code, SEO dynamic routing): https://applyeuropa.com | Figma Specs: https://www.figma.com/design/uve2zKh9reAoFHNVlHaKaP/Apply-Europa?node-id=0-1&t=U4FkYsc3ODfjFvmy-1
-  4. Leadz Study Abroad (Consultancy Web Platform — React.js, Tailwind CSS, GSAP timeline animations): https://leadzstudyabroad.com
-- Skills: React.js, Next.js (App Router), TypeScript, JavaScript (ES6+), Tailwind CSS v4, GSAP, Framer Motion, WebGL2, GLSL, Redux Toolkit, Context API, Node.js, Express.js, Supabase (PostgreSQL), MongoDB, Figma Design Systems.
-- Education: Bachelor of Computer Applications (BCA), Nehru Arts & Science College, Coimbatore, Class of 2022, First Class with 7.8 CGPA.`;
+function detectTopics(q) {
+  return {
+    greeting:
+      /^(hi|hey|hello|hola|yo|sup|good morning|good afternoon|good evening|how are you)[\s!?.]*$/i.test(
+        q
+      ),
+    taskit: matchesAny(q, ["taskit", "3d", "webgl", "glsl", "supabase", "otp"]),
+    sans: matchesAny(q, ["sans", "quote", "social"]),
+    europa: matchesAny(q, ["europa", "apply", "figma"]),
+    leadz: matchesAny(q, ["leadz", "consultancy"]),
+    projects: matchesAny(q, [
+      "project",
+      "proejct",
+      "projct",
+      "link",
+      "url",
+      "live",
+      "demo",
+      "website",
+      "site",
+      "portfolio",
+      "app",
+      "built",
+      "made",
+    ]),
+    experience: matchesAny(q, [
+      "experience",
+      "experince",
+      "experiance",
+      "exp",
+      "work",
+      "job",
+      "career",
+      "milestone",
+      "company",
+      "faatlab",
+      "luminar",
+      "intern",
+      "role",
+      "history",
+    ]),
+    skills: matchesAny(q, [
+      "skill",
+      "skil",
+      "stack",
+      "tech",
+      "react",
+      "next",
+      "typescript",
+      "tailwind",
+      "gsap",
+      "framer",
+      "node",
+      "mongo",
+      "redux",
+      "tool",
+      "claude",
+      "cursor",
+      "code",
+    ]),
+    education: matchesAny(q, [
+      "education",
+      "educat",
+      "college",
+      "degree",
+      "cgpa",
+      "nehru",
+      "bca",
+      "academic",
+      "study",
+      "graduat",
+    ]),
+    contact: matchesAny(q, [
+      "contact",
+      "contct",
+      "hire",
+      "email",
+      "mail",
+      "phone",
+      "whatsapp",
+      "call",
+      "bengaluru",
+      "bangalore",
+      "available",
+      "join",
+      "location",
+      "cv",
+      "resume",
+      "linkedin",
+      "github",
+      "pexels",
+      "photo",
+    ]),
+    about: matchesAny(q, ["who", "about", "ashwin", "introduce", "summary", "tell me"]),
+  };
+}
 
 function detectRelevantSources(q) {
+  const t = detectTopics(q);
   const matched = [];
-  if (q.includes("taskit")) matched.push("taskit");
-  if (q.includes("sans") || q.includes("quote")) matched.push("sans");
-  if (q.includes("europa") || q.includes("figma")) matched.push("applyeuropa");
-  if (q.includes("leadz")) matched.push("leadz");
-  if (
-    q.includes("project") ||
-    q.includes("link") ||
-    q.includes("url") ||
-    q.includes("live") ||
-    q.includes("demo") ||
-    q.includes("website") ||
-    q.includes("app") ||
-    q.includes("built")
-  ) {
-    matched.push("projects", "taskit", "sans", "applyeuropa", "leadz");
-  }
-  if (
-    q.includes("experience") ||
-    q.includes("job") ||
-    q.includes("faatlab") ||
-    q.includes("luminar") ||
-    q.includes("work") ||
-    q.includes("career")
-  ) {
-    matched.push("experience");
-  }
-  if (
-    q.includes("skill") ||
-    q.includes("stack") ||
-    q.includes("react") ||
-    q.includes("next") ||
-    q.includes("typescript") ||
-    q.includes("css") ||
-    q.includes("webgl")
-  ) {
-    matched.push("skills");
-  }
-  if (
-    q.includes("education") ||
-    q.includes("college") ||
-    q.includes("degree") ||
-    q.includes("cgpa") ||
-    q.includes("nehru") ||
-    q.includes("bca") ||
-    q.includes("academic")
-  ) {
-    matched.push("academics");
-  }
-  if (
-    q.includes("contact") ||
-    q.includes("hire") ||
-    q.includes("email") ||
-    q.includes("phone") ||
-    q.includes("bengaluru") ||
-    q.includes("available") ||
-    q.includes("location")
-  ) {
-    matched.push("contact");
+  if (t.taskit) matched.push("taskit");
+  if (t.sans) matched.push("sans");
+  if (t.europa) matched.push("applyeuropa");
+  if (t.leadz) matched.push("leadz");
+  if (t.projects) matched.push("projects", "taskit", "sans", "applyeuropa", "leadz");
+  if (t.experience) matched.push("experience");
+  if (t.skills) matched.push("skills");
+  if (t.education) matched.push("academics");
+  if (t.contact) matched.push("contact");
+  if (t.about && matched.length === 0) {
+    matched.push("experience", "projects", "skills", "contact");
   }
 
-  const uniqueIds = Array.from(new Set(matched));
-  return uniqueIds
+  return Array.from(new Set(matched))
     .map((id) => PORTFOLIO_SOURCES.find((s) => s.id === id))
     .filter(Boolean);
 }
@@ -208,7 +211,6 @@ export async function askPortfolioAI(
   const q = query.toLowerCase().trim();
   const relevantSources = detectRelevantSources(q);
 
-  // Only stream portfolio sources to trace when query actually relates to portfolio entities
   if (onSource && relevantSources.length > 0) {
     for (const src of relevantSources) {
       onSource({
@@ -236,9 +238,8 @@ export async function askPortfolioAI(
       ? `\nUser attached files: ${files.map((f) => f.name).join(", ")}.`
       : "";
 
-  // Call the real free, keyless open-source LLM agent (GPT-OSS 20B via Pollinations OpenAI-compatible API)
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 18000);
+  const timeout = setTimeout(() => controller.abort(), 10000);
 
   const combinedSignal = signal
     ? (() => {
@@ -261,7 +262,7 @@ export async function askPortfolioAI(
         messages: [
           {
             role: "system",
-            content: SYSTEM_PROMPT + toolHint + filesHint,
+            content: buildKnowledgePrompt() + toolHint + filesHint,
           },
           {
             role: "user",
@@ -295,36 +296,36 @@ export async function askPortfolioAI(
     if (signal?.aborted) {
       throw err;
     }
-    // Fall through to offline semantic fallback only if network/API is unreachable
+    // Seamlessly fall through to local codebase-indexed RAG engine
   }
 
-  return generateOfflineFallback(q, relevantSources, model);
+  return generateCodebaseRAGAnswer(q, relevantSources, model);
 }
 
-function generateOfflineFallback(q, relevantSources, model) {
-  // Natural greeting handling even in offline fallback
-  if (
-    /^(hi|hey|hello|hola|yo|sup|good morning|good afternoon|good evening)[\s!?.]*$/i.test(
-      q
-    )
-  ) {
+function generateCodebaseRAGAnswer(q, relevantSources, model) {
+  const t = detectTopics(q);
+  const { profile, experience, education } = PORTFOLIO_KNOWLEDGE;
+  const label = model || "Portfolio AI (Indexed)";
+
+  // 1. Natural greeting
+  if (t.greeting) {
     return {
       parts: [
         {
-          text: "Hey! How can I help you today? You can ask me about Ashwin's projects, live links, tech stack, experience, or anything else.",
+          text: "Hey! How can I help you today? You can ask me about Ashwin's work experience, live projects, tech stack, academics, CV, or how this website was built.",
         },
       ],
       sources: PORTFOLIO_SOURCES,
-      modelLabel: model || "GPT-OSS 20B (OpenSource)",
-      isLiveAI: false,
+      modelLabel: label,
     };
   }
 
-  if (q.includes("taskit")) {
+  // 2. Specific project queries
+  if (t.taskit && !t.experience && !t.projects) {
     return {
       parts: [
         {
-          text: "Taskit is Ashwin's flagship Full Stack & 3D WebGL project built with Next.js 16 App Router, React 19, TypeScript, Supabase, and GLSL shaders. ",
+          text: "Taskit is Ashwin's flagship Full Stack & 3D WebGL project built with Next.js 16 App Router, React 19, TypeScript, Tailwind CSS v4, Supabase (PostgreSQL), Google OAuth 2.0, Email OTP, and interactive WebGL2/GLSL shaders. ",
           cite: ["taskit"],
         },
         {
@@ -334,15 +335,15 @@ function generateOfflineFallback(q, relevantSources, model) {
         },
       ],
       sources: PORTFOLIO_SOURCES,
-      modelLabel: model || "GPT-OSS 20B (OpenSource)",
+      modelLabel: label,
     };
   }
 
-  if (q.includes("sans") || q.includes("quote")) {
+  if (t.sans && !t.experience && !t.projects) {
     return {
       parts: [
         {
-          text: "SANS is a Reels-style quote-sharing social platform with a client-side editor and Google OAuth. ",
+          text: "SANS is a Reels-style aesthetic quotes social platform featuring mood filter pills, a client-side quote editor, reusable interaction cards, and Google OAuth. ",
           cite: ["sans"],
         },
         {
@@ -352,15 +353,15 @@ function generateOfflineFallback(q, relevantSources, model) {
         },
       ],
       sources: PORTFOLIO_SOURCES,
-      modelLabel: model || "GPT-OSS 20B (OpenSource)",
+      modelLabel: label,
     };
   }
 
-  if (q.includes("europa") || q.includes("figma")) {
+  if (t.europa && !t.experience && !t.projects) {
     return {
       parts: [
         {
-          text: "Apply Europa is a European study-abroad portal converted pixel-perfect from Figma into Next.js and TypeScript. ",
+          text: "Apply Europa is a European study-abroad discovery platform converted pixel-perfect from Figma into Next.js, React.js, TypeScript, and SEO-friendly dynamic routes. ",
           cite: ["applyeuropa"],
         },
         {
@@ -376,15 +377,15 @@ function generateOfflineFallback(q, relevantSources, model) {
         },
       ],
       sources: PORTFOLIO_SOURCES,
-      modelLabel: model || "GPT-OSS 20B (OpenSource)",
+      modelLabel: label,
     };
   }
 
-  if (q.includes("leadz")) {
+  if (t.leadz && !t.experience && !t.projects) {
     return {
       parts: [
         {
-          text: "Leadz Study Abroad is a consultancy web platform built with React.js, Tailwind CSS, and GSAP timeline animations. ",
+          text: "Leadz Study Abroad is a responsive consultancy web platform built with React.js, Tailwind CSS, and GSAP scroll-triggered animations. ",
           cite: ["leadz"],
         },
         {
@@ -394,30 +395,59 @@ function generateOfflineFallback(q, relevantSources, model) {
         },
       ],
       sources: PORTFOLIO_SOURCES,
-      modelLabel: model || "GPT-OSS 20B (OpenSource)",
+      modelLabel: label,
     };
   }
 
-  if (
-    q.includes("project") ||
-    q.includes("link") ||
-    q.includes("url") ||
-    q.includes("live") ||
-    q.includes("demo") ||
-    q.includes("website") ||
-    q.includes("app")
-  ) {
+  // 3. Work Experience (Full answer including shipped projects & live links)
+  if (t.experience) {
+    const faat = experience[0];
+    const lum = experience[1];
+    const parts = [
+      {
+        text: `Ashwin K P has ${profile.experienceYears} of commercial frontend engineering experience. Most recently as a ${faat.role} at ${faat.company} (${faat.period}), he built 8+ commercial web apps (15+ responsive pages) from Figma & Adobe XD using React, Next.js, TypeScript, and Tailwind CSS, cut page load times by up to 30% via code-splitting and hybrid SSR/SSG, integrated REST APIs with Redux Toolkit & Context API, built GSAP animations, and automated Vercel + GitHub Actions CI/CD. `,
+        cite: ["experience"],
+      },
+      {
+        text: `Previously, he completed a ${lum.role} at ${lum.company} (${lum.period}) building full-stack MERN modules (React.js, Node.js, Express.js, MongoDB). `,
+        cite: ["experience"],
+      },
+      { text: "Featured shipped projects: " },
+      { text: "Taskit", link: "https://taskit01.vercel.app", cite: ["taskit"] },
+      { text: ", " },
+      { text: "SANS", link: "https://sans01.vercel.app", cite: ["sans"] },
+      { text: ", " },
+      { text: "Apply Europa", link: "https://applyeuropa.com", cite: ["applyeuropa"] },
+      { text: ", and " },
+      {
+        text: "Leadz Study Abroad",
+        link: "https://leadzstudyabroad.com",
+        cite: ["leadz"],
+      },
+      { text: "." },
+    ];
+    return {
+      parts,
+      sources: PORTFOLIO_SOURCES,
+      modelLabel: label,
+    };
+  }
+
+  // 4. Projects & Live Links
+  if (t.projects) {
     return {
       parts: [
-        { text: "Here are Ashwin's live production project links: " },
         {
-          text: "Taskit (https://taskit01.vercel.app)",
+          text: "Ashwin has engineered 8+ commercial applications, headlined by 4 featured live platforms: ",
+        },
+        {
+          text: "Taskit (Full Stack & 3D WebGL — https://taskit01.vercel.app)",
           link: "https://taskit01.vercel.app",
           cite: ["taskit"],
         },
         { text: ", " },
         {
-          text: "SANS (https://sans01.vercel.app)",
+          text: "SANS Quotes Platform (https://sans01.vercel.app)",
           link: "https://sans01.vercel.app",
           cite: ["sans"],
         },
@@ -436,26 +466,85 @@ function generateOfflineFallback(q, relevantSources, model) {
         { text: "." },
       ],
       sources: PORTFOLIO_SOURCES,
-      modelLabel: model || "GPT-OSS 20B (OpenSource)",
+      modelLabel: label,
     };
   }
 
+  // 5. Skills & Tech Stack (including website architecture)
+  if (t.skills) {
+    return {
+      parts: [
+        {
+          text: "Ashwin's core engineering stack spans Frontend (React.js, Next.js App Router SSR/SSG, TypeScript, ES6+, HTML5/CSS3, Tailwind CSS), Styling & Animation (Figma, GSAP, Framer Motion, Material UI, Bootstrap, Adobe XD), State & Auth (Redux Toolkit, Context API, REST APIs, Google OAuth 2.0, Email OTP, HTTP Session Cookies), Backend (Node.js, Express.js, Supabase PostgreSQL, MongoDB, Next.js API Routes), 3D WebGL2/GLSL, and DevOps/AI tools (GitHub Actions CI/CD, Vercel, Vite, Webpack 5, Cursor, Claude Code). ",
+          cite: ["skills"],
+        },
+        {
+          text: "This portfolio itself runs on Next.js 16 App Router, React 19, Framer Motion, WebGL/Canvas PixelTrail, and Kokonut UI.",
+          cite: ["projects"],
+        },
+      ],
+      sources: PORTFOLIO_SOURCES,
+      modelLabel: label,
+    };
+  }
+
+  // 6. Education
+  if (t.education) {
+    return {
+      parts: [
+        {
+          text: `Ashwin holds a ${education.degree} in ${education.field} from ${education.college} (${education.year}), graduating with First Class distinction and ${education.cgpa}.`,
+          cite: ["academics"],
+        },
+      ],
+      sources: PORTFOLIO_SOURCES,
+      modelLabel: label,
+    };
+  }
+
+  // 7. Contact, Availability, CV, Pexels
+  if (t.contact) {
+    return {
+      parts: [
+        {
+          text: `Ashwin is based in ${profile.location} and is available as an ${profile.availability} (fluent in ${profile.languages.join(", ")}). Reach him at ${profile.email} or ${profile.phone}. `,
+          cite: ["contact"],
+        },
+        { text: "Download CV", link: profile.cvUrl, cite: ["contact"] },
+        { text: " · " },
+        { text: "Pexels Photography", link: profile.pexels, cite: ["contact"] },
+        { text: " · " },
+        { text: "GitHub", link: profile.github, cite: ["contact"] },
+        { text: " · " },
+        { text: "LinkedIn", link: profile.linkedin, cite: ["contact"] },
+      ],
+      sources: PORTFOLIO_SOURCES,
+      modelLabel: label,
+    };
+  }
+
+  // 8. General Overview / About / Catch-all (Always helpful, never an error message)
   return {
     parts: [
       {
-        text: "The live open-source AI endpoint is temporarily unreachable from this browser session. You can still ask about Ashwin's ",
+        text: `${profile.name} is a ${profile.role} in ${profile.location} (${profile.availability}) with ${profile.experienceYears} of experience building React, Next.js, and TypeScript applications—most recently at FaatLab Technologies (8+ commercial apps, 30% faster load times). `,
+        cite: ["experience", "skills"],
       },
-      { text: "projects & live links", cite: ["projects"] },
+      { text: "Explore his live work: " },
+      { text: "Taskit", link: "https://taskit01.vercel.app", cite: ["taskit"] },
       { text: ", " },
-      { text: "experience", cite: ["experience"] },
+      { text: "SANS", link: "https://sans01.vercel.app", cite: ["sans"] },
       { text: ", " },
-      { text: "tech stack", cite: ["skills"] },
-      { text: ", or " },
-      { text: "contact details", cite: ["contact"] },
+      { text: "Apply Europa", link: "https://applyeuropa.com", cite: ["applyeuropa"] },
+      { text: ", and " },
+      {
+        text: "Leadz Study Abroad",
+        link: "https://leadzstudyabroad.com",
+        cite: ["leadz"],
+      },
       { text: "." },
     ],
     sources: PORTFOLIO_SOURCES,
-    modelLabel: model || "GPT-OSS 20B (OpenSource)",
-    isLiveAI: false,
+    modelLabel: label,
   };
 }

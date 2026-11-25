@@ -2085,3 +2085,18 @@ header {
     text-align: center;
   }
 }
+
+/* =========================================================
+   Single Custom Cursor Enforcement (Native Input Exception)
+   ========================================================= */
+html.has-custom-cursor,
+html.has-custom-cursor * {
+  cursor: none !important;
+}
+
+html.has-custom-cursor input,
+html.has-custom-cursor textarea,
+html.has-custom-cursor select,
+html.has-custom-cursor [contenteditable="true"] {
+  cursor: text !important;
+}

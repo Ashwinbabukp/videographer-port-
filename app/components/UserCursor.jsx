@@ -54,6 +54,7 @@ export default function UserCursor(props = {}) {
   const [pressed, setPressed] = useState(false);
   const [labelExpired, setLabelExpired] = useState(false);
   const [inProjectSection, setInProjectSection] = useState(false);
+  const [overInput, setOverInput] = useState(false);
 
   // Touch detection
   useEffect(() => {
@@ -80,13 +81,12 @@ export default function UserCursor(props = {}) {
     };
   }, [durationMs, isTouchDevice]);
 
-  // Hide native OS cursor so the custom cursor arrow stays active
+  // Hide native OS cursor globally via html.has-custom-cursor (except inside inputs/textareas)
   useEffect(() => {
     if (typeof document === "undefined" || isTouchDevice) return;
-    const prevCursor = document.body.style.cursor;
-    document.body.style.cursor = "none";
+    document.documentElement.classList.add("has-custom-cursor");
     return () => {
-      document.body.style.cursor = prevCursor || "";
+      document.documentElement.classList.remove("has-custom-cursor");
     };
   }, [isTouchDevice]);
 
@@ -181,6 +181,11 @@ export default function UserCursor(props = {}) {
       const overProjects =
         typeof e.target?.closest === "function" && !!e.target.closest("#work");
       setInProjectSection(overProjects);
+
+      const isInput =
+        typeof e.target?.closest === "function" &&
+        !!e.target.closest("textarea, input, select, [contenteditable='true']");
+      setOverInput(isInput);
     };
 
     const onDown = () => setPressed(true);
@@ -188,6 +193,7 @@ export default function UserCursor(props = {}) {
     const onLeave = () => {
       setHovering(false);
       setInProjectSection(false);
+      setOverInput(false);
       lastSampleRef.current = null;
       labelTiltTarget.set(0);
     };
@@ -280,8 +286,8 @@ export default function UserCursor(props = {}) {
 
   if (isTouchDevice) return null;
 
-  const cursorVisible = hovering;
-  const labelVisible = hovering && (!labelExpired || inProjectSection);
+  const cursorVisible = hovering && !overInput;
+  const labelVisible = hovering && !overInput && (!labelExpired || inProjectSection);
 
   return (
     <div
