@@ -50,9 +50,8 @@ export default function Hero() {
         <div className="nav-center-cross" aria-hidden="true">✕</div>
         <MovingGradientButton
           label="DOWNLOAD CV"
-          link="/ashwin-resume.pdf"
-          download="Ashwin_KP_CV.pdf"
-          newTab={false}
+          link="https://drive.google.com/file/d/146IcaZN033Mtf-VgIcsi_fbR5LfFIdHM/view?usp=sharing"
+          newTab={true}
           padding="9px 22px"
           rounded={100}
           colors={{
